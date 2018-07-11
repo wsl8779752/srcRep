@@ -1,0 +1,1 @@
+g++   -std=c++11 -O3 -g   CMakeFiles/program_name.dir/code2_1.cpp.o  -o program_name 

@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/w/srcRep/learnc++/chapter2/code2_1.cpp
+iostream
+-
+string
+-
+cstdio
+-
+cstring
+-
+sstream
+-
+cstdlib
+-
+
