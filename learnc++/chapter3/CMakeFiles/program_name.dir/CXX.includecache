@@ -6,7 +6,17 @@
 
 #IncludeRegexTransform: 
 
-/home/w/srcRep/learnc++/chapter3/code3_1.cpp
+/home/w/srcRep/learnc++/chapter3/part4.cpp
 iostream
+-
+string
+-
+cstdio
+-
+cstring
+-
+sstream
+-
+cstdlib
 -
 
