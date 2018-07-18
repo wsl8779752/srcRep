@@ -1,10 +1,23 @@
+/**
+ * @file part4.cpp
+ * @brief 
+ * @author rensheng946@163.com
+ * @version 1.0
+ * @date 2018-07-13
+ */
 #include <iostream>
 #include <string>
 #include <cstdio>
 #include <cstring>
 #include <sstream>
 #include <cstdlib>
+#ifndef uint8_t
+#define uint8_t unsigned char
+#endif /* ifndef uint8_t */
 using namespace std;
+/**
+ * @brief nimamabi
+ */
 typedef enum warriortype{
     DRAGON =0,
     NINJA,
@@ -41,12 +54,13 @@ class headQuators
 { 
     public: 
         headQuators(string name1);
+        bool haveResourceToProNext;           
         void setLifeElement(int n){
              lifeElement = n ;
         } 
         void setManufactorSequency();
         int produceWarriors();
-        bool haveResourceToProNext;           
+        void init();
     private: 
         int lifeElement; 
         int  manufactorSequency[5];
@@ -58,10 +72,6 @@ class headQuators
 }; 
 headQuators ::headQuators(string name1):name(name1){
     setManufactorSequency();
-    haveResourceToProNext = true ;
-    act = 0;
-    dataId = 0;
-    memset(warriorCount,0,sizeof(warriorCount));
 }
 void headQuators::setManufactorSequency(){
     if( name == "red"){
@@ -81,16 +91,19 @@ void headQuators::setManufactorSequency(){
 }
 
 int headQuators:: produceWarriors(){
+    WARRIORKIND tempkind ;
+    uint8_t actIndex;
     for (unsigned int i = 0; i < 6; ++i) { 
-        WARRIORKIND tempkind =(WARRIORKIND) manufactorSequency[act];
+        actIndex = manufactorSequency[act];
+        tempkind=(WARRIORKIND) manufactorSequency[act];
+        if(++act == 5) act =0 ;
         if( lifeElement >= Cwarrior::get_consumption(tempkind))
         {
             //p[dataId] = new Cwarrior(tempkind,name);
-            cout<<' '<<name<<' '<<warrior_string[manufactorSequency[act]]<<" "<<dataId+1<<" "<<"born with strength "<<Cwarrior::get_consumption(tempkind) ;
-            warriorCount[manufactorSequency[act]]++;
-            cout<<','<<warriorCount[manufactorSequency[act]]<<' '<<warrior_string[manufactorSequency[act]]<<" in "<<name<<" headquator"<<endl;
+            cout<<' '<<name<<' '<<warrior_string[actIndex]<<" "<<dataId+1<<" "<<"born with strength "<<Cwarrior::get_consumption(tempkind) ;
+            warriorCount[actIndex]++;
+            cout<<','<<warriorCount[actIndex]<<' '<<warrior_string[actIndex]<<" in "<<name<<" headquarter"<<endl;
             lifeElement-= Cwarrior::get_consumption(tempkind);
-            if(++act == 5) act =0 ;
             dataId+=1;
             return 1;
         }
@@ -99,10 +112,21 @@ int headQuators:: produceWarriors(){
     cout<<' '<<name<<" headquarter stops making warriors"<<endl;
     return -1;  
 }
-void dealWithInput(int& dataId, int& lifeElement,int (&cost)[5]){
-    cin>>dataId>>lifeElement; 
-    for (unsigned int i = 0; i < 5; ++i) { 
-        cin>>cost[i];
+void headQuators::init(){
+    haveResourceToProNext = true ;
+    act = 0;
+    dataId = 0;
+    memset(warriorCount,0,sizeof(warriorCount));
+}
+void dealWithInput(unsigned int & dataId, int *& lifeElement,int (*&cost)[5]){
+    cin>>dataId;
+    lifeElement =  new int[dataId];
+    cost = new int[dataId][5];
+    for (unsigned int i = 0; i < dataId; ++i) { 
+        cin>>lifeElement[i]; 
+        for (unsigned int j = 0; j < 5; ++j) { 
+            cin>>cost[i][j];
+        } 
     } 
 }
 void timeHourOutput(int &timeHour){
@@ -117,24 +141,31 @@ void timeHourOutput(int &timeHour){
     } 
 }
 int main(){
-    int dataId,lifeElement,cost[5];
+    unsigned int dataId;
+    int *lifeElement,(*cost)[5];
     dealWithInput(dataId,lifeElement,cost);
     headQuators RedCommand("red"), BlueCommand("blue");
-    RedCommand.setLifeElement(lifeElement);
-    BlueCommand.setLifeElement(lifeElement);
-    Cwarrior::setwarriorConsumption(cost);
-    cout<<"Case:"<<dataId<<endl;
-    int timeHour=0;
-    while(RedCommand.haveResourceToProNext == true || BlueCommand.haveResourceToProNext ==true) 
-    {
-        if(RedCommand.haveResourceToProNext == true ){
-            timeHourOutput(timeHour);
-            RedCommand.produceWarriors();
-        }
-        if(BlueCommand.haveResourceToProNext == true){
-            timeHourOutput(timeHour);
-            BlueCommand.produceWarriors();
-        }
-        timeHour++ ;
-    }    
+    for (unsigned int i = 0; i < dataId; ++i) { 
+        RedCommand.init();
+        BlueCommand.init();
+        RedCommand.setLifeElement(lifeElement[i]);
+        BlueCommand.setLifeElement(lifeElement[i]);
+        Cwarrior::setwarriorConsumption(cost[i]);
+        cout<<"Case:"<<i+1<<endl;
+        int timeHour=0;
+        while(RedCommand.haveResourceToProNext == true || BlueCommand.haveResourceToProNext ==true) 
+        {
+            if(RedCommand.haveResourceToProNext == true ){
+                timeHourOutput(timeHour);
+                RedCommand.produceWarriors();
+            }
+            if(BlueCommand.haveResourceToProNext == true){
+                timeHourOutput(timeHour);
+                BlueCommand.produceWarriors();
+            }
+            timeHour++ ;
+        }    
+    }
+    delete []cost;
+    delete []lifeElement;
 }
