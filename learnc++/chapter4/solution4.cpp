@@ -1,13 +1,17 @@
 #include <iostream> 
+#include <sstream>
 #include <cstdio> 
 #include <cstring> 
 #include <string> 
 #include <algorithm>
+#include <limits> 
 using namespace std;
 class dataDef 
 { 
     public: 
         dataDef (); 
+        dataDef(char *s);
+        dataDef(dataDef &n);
         virtual ~dataDef (); 
         void dataInit();
         char *data; 
@@ -15,11 +19,38 @@ class dataDef
         char *operator-(dataDef &temp);
         char *operator*(dataDef &temp);
         char *operator/(dataDef &temp);
+        dataDef & operator=(char *str);
     private: 
         int len;
 }; 
 dataDef::dataDef(){
-    data  = new char[101];
+    data = NULL; 
+    len = 0 ;
+}
+dataDef::dataDef(char *s){
+    int length =(int) strlen(s);
+    if(length == 0) {
+        delete data;
+        data  =  NULL ;
+        len = 0 ;
+    }
+    data = new char[length+1];
+    memcpy(data,s,(size_t)(length+1));
+    len =  length ;
+}
+dataDef::dataDef(dataDef &n){
+    if(n.len == 0)
+    {
+       delete data;
+       data = NULL ;
+       len = 0; 
+       return ;
+    }
+    if(len != n.len){
+        delete data;
+        data  = new char [n.len+1];
+    }
+    memcpy(data,n.data,(size_t)(n.len+1));
 }
 dataDef::~dataDef(){
     delete data;
@@ -173,7 +204,7 @@ char *dataDef::operator*(dataDef &temp){
     return ans ;
 } 
 char *dataDef::operator/(dataDef &temp){
-    int k;
+    int k= 1;
     if(len < temp.len || (len == temp.len && (k = strcmp(data,temp.data))<0 )) // data<temp.data
     {
         char *ans = new char[2];
@@ -188,26 +219,44 @@ char *dataDef::operator/(dataDef &temp){
         return ans ;
     }
    else { 
-       char *ans = new char[len+1]; 
    }  
-    
+   char *ans = new char[len+1]; 
+   unsigned  int i =0;
+   char *p ;
+   dataDef c(*this),e;
+   stringstream ss;
+   while( c.data[0]!='-')
+   {
+       p = c  - temp ;
+       c = p;       
+       i++ ;
+       if (i== UINT_MAX) { 
+       ss<<i;
+       dataDef d((char *) ss.str().c_str());
+       e = ans ;
+       ans = e+d;  
+     }     
+   }    
+   return ans; 
+}
+dataDef &dataDef::operator=(char *str){
+    int strLength =(int) strlen(str);
+    if( len!= strLength ){
+        delete[] data;
+        data = new char[strLength+1];
+    }
+    memcpy(data,str,(size_t)(strLength+1));
+    len = strLength ;
+    return *this;
 }
 int main(){
-    dataDef a ,b ;
     char input_operator ,*c;
-    cin>>a.data>>input_operator>>b.data;
-    a.dataInit();
-    b.dataInit();
-    /*if(len_a < len_b ){*/
-        //char *temp = a ;
-        //a = b;
-        //b = temp ;
-        //int temp_len = len_a ;
-        //len_a = len_b ;
-        //len_b = temp_len ;
-    /*}*/
+    string  first,second;
+    cin>>first>>input_operator>>second;
+    dataDef a((char *)first.c_str()),b((char *)second.c_str());
     switch (input_operator) { 
-        case '+':   { 
+        case '+':  
+        { 
           c = a + b;                 
         } ;
         break; 
@@ -215,8 +264,8 @@ int main(){
         break;          
         case '*':{c =a*b;};
         break;
-        //case '/':{c =a/b}
-        /*break;         */
+        case '/':{c =a/b}
+        break;         
         default: { 
         } 
         break; 
