@@ -4,7 +4,7 @@
 #include <cstring> 
 #include <string> 
 #include <algorithm>
-#include <limits> 
+#include <climits> 
 using namespace std;
 class dataDef 
 { 
@@ -15,10 +15,10 @@ class dataDef
         virtual ~dataDef (); 
         void dataInit();
         char *data; 
-        char *operator+(dataDef &temp);
-        char *operator-(dataDef &temp);
-        char *operator*(dataDef &temp);
-        char *operator/(dataDef &temp);
+        dataDef operator+(dataDef &temp);
+        dataDef operator-(dataDef &temp);
+        dataDef operator*(dataDef &temp);
+        dataDef operator/(dataDef &temp);
         dataDef & operator=(char *str);
     private: 
         int len;
@@ -58,7 +58,7 @@ dataDef::~dataDef(){
 void dataDef::dataInit(){
     len  = strlen(data);
 }
-char *dataDef:: operator+(dataDef &temp){
+dataDef dataDef:: operator+(dataDef &temp){
     int maxlen = max(len,temp.len);
     char *ans = new char[maxlen+2];
     int i =0;
@@ -82,11 +82,13 @@ char *dataDef:: operator+(dataDef &temp){
         char *ans2 = new char[maxlen+1];
         memcpy(ans2,ans+1,(size_t) (maxlen+1));
         delete []ans;
-        return ans2;
+        ans = ans2;
     }
-    return ans;
+    dataDef n1(ans);
+    delete [] ans;
+    return n1;
 }
-char *dataDef::operator-(dataDef &temp){
+dataDef dataDef::operator-(dataDef &temp){
     int signFlag,i=0;
     char borrow;
     dataDef *bigOne,*smallOne ;
@@ -104,7 +106,9 @@ char *dataDef::operator-(dataDef &temp){
         char *ans = new char[2]; 
         ans[0] = '0';
         ans[1] = '\0';
-        return ans;
+        dataDef n1(ans);
+        delete []ans;
+        return n1;
     }
     else if (signFlag > 0) { 
        bigOne = this ;
@@ -121,10 +125,10 @@ char *dataDef::operator-(dataDef &temp){
     { 
         char a = bigOne->len-i > 0 ? bigOne->data[bigOne->len-i-1]:'0';
         char b = smallOne->len-i>0 ? smallOne->data[smallOne->len-i-1]:'0';
-        ans[maxlen-1-i] = a - b + '0'-borrow;
+        ans[maxlen-1-i] = a - b + '0' - borrow;   //从ans[maxlen-1]开始计算答案
         if( ans[maxlen-1-i]  < '0'){
             ans[maxlen-1-i] += 10;
-         borrow = 1;   
+            borrow = 1;   
         
         }
         else { 
@@ -133,24 +137,20 @@ char *dataDef::operator-(dataDef &temp){
         i++ ;
     }
     /**
-     * @brief 从头开始遍历，删除前置０，并补充符号位
+     * @brief 遍历删除ans中的前置0
+     * 从i =1 开始遍历是因为a-b 所得的数的位数不会超过a(a>b),假设ａ的长度是ｌ,而申请的ans的长度是(l+2);
+     * 加上需要在ans末尾补充的'\0',用到的长度是l+1, 实际上ans[0]是用不到的，所以从ans[1]开始遍历
      */
-    i = 0;    
+    i = 1;    
     while(ans[i] == '0') i++;
-    char *ans2 = new char[maxlen-i+2];
     if( signFlag < 0 ){
-        ans2[0] = '-';
-        memcpy(ans2+1,ans+i,(size_t)(maxlen-i));
-        ans2[maxlen-i+1] = '\0'; 
-    }
-    else { 
-        memcpy(ans2,ans+i,(size_t)(maxlen-i)); 
-        ans2[maxlen-i] = '\0';
-    } 
+        ans[i-1] = '-';
+    ans[maxlen+1] = '\0';
+    dataDef n1(ans+i);
     delete []ans;
-    return ans2 ;
+    return n1 ;
 }
-char *dataDef::operator*(dataDef &temp){ 
+dataDef dataDef::operator*(dataDef &temp){ 
     dataDef *bigOne= this,*smallOne=&temp ;
     int j,k;
     if (len< temp.len) { 
@@ -194,14 +194,13 @@ char *dataDef::operator*(dataDef &temp){
     } 
     ans[totalLen] = '\0';
     if (ans[0]== '0'){
-        char *ans2 =  new char[totalLen];
-        memcpy(ans2,ans+1,(size_t)totalLen);
-        delete [] ans;
-        return ans2;
+        dataDef n1(ans+1);
     }
+    else dataDef n1(ans);
+    delete [] ans;
     delete [] bigoneDataToInt;
     delete [] process;
-    return ans ;
+    return n1 ;
 } 
 char *dataDef::operator/(dataDef &temp){
     int k= 1;
@@ -264,10 +263,8 @@ int main(){
         break;          
         case '*':{c =a*b;};
         break;
-        case '/':{c =a/b}
+        case '/':{c =a/b;}
         break;         
-        default: { 
-        } 
         break; 
     } 
     printf("%s",c);
