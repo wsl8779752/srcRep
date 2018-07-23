@@ -1,4 +1,4 @@
-#include <iostream> 
+#include <iostream>
 #include <sstream>
 #include <cstdio> 
 #include <cstring> 
@@ -10,7 +10,7 @@ class dataDef
 { 
     public: 
         dataDef (); 
-        dataDef(char *s);
+        dataDef(const char *s);
         dataDef(dataDef &n);
         virtual ~dataDef (); 
         void dataInit();
@@ -19,7 +19,9 @@ class dataDef
         dataDef operator-(dataDef &temp);
         dataDef operator*(dataDef &temp);
         dataDef operator/(dataDef &temp);
-        dataDef & operator=(char *str);
+        dataDef & operator=(const char *str);
+        dataDef & operator=(const dataDef &temp);
+        void out();
     private: 
         int len;
 }; 
@@ -27,7 +29,7 @@ dataDef::dataDef(){
     data = NULL; 
     len = 0 ;
 }
-dataDef::dataDef(char *s){
+dataDef::dataDef(const char *s){
     int length =(int) strlen(s);
     if(length == 0) {
         delete data;
@@ -41,22 +43,21 @@ dataDef::dataDef(char *s){
 dataDef::dataDef(dataDef &n){
     if(n.len == 0)
     {
-       delete data;
        data = NULL ;
        len = 0; 
-       return ;
     }
-    if(len != n.len){
-        delete data;
+    else { 
         data  = new char [n.len+1];
-    }
-    memcpy(data,n.data,(size_t)(n.len+1));
+        len = n.len ;
+        memcpy(data,n.data,(size_t)(n.len+1));
+    } 
 }
+
 dataDef::~dataDef(){
     delete data;
 }
 void dataDef::dataInit(){
-    len  = strlen(data);
+    len  = (int) strlen(data);
 }
 dataDef dataDef:: operator+(dataDef &temp){
     int maxlen = max(len,temp.len);
@@ -125,9 +126,9 @@ dataDef dataDef::operator-(dataDef &temp){
     { 
         char a = bigOne->len-i > 0 ? bigOne->data[bigOne->len-i-1]:'0';
         char b = smallOne->len-i>0 ? smallOne->data[smallOne->len-i-1]:'0';
-        ans[maxlen-1-i] = a - b + '0' - borrow;   //从ans[maxlen-1]开始计算答案
-        if( ans[maxlen-1-i]  < '0'){
-            ans[maxlen-1-i] += 10;
+        ans[maxlen-i] = a - b + '0' - borrow;   //从ans[maxlen-1]开始计算答案
+        if( ans[maxlen-i]  < '0'){
+            ans[maxlen-i] += 10;
             borrow = 1;   
         
         }
@@ -143,8 +144,8 @@ dataDef dataDef::operator-(dataDef &temp){
      */
     i = 1;    
     while(ans[i] == '0') i++;
-    if( signFlag < 0 ){
-        ans[i-1] = '-';
+    if( signFlag < 0 )
+        ans[--i] = '-';
     ans[maxlen+1] = '\0';
     dataDef n1(ans+i);
     delete []ans;
@@ -193,52 +194,61 @@ dataDef dataDef::operator*(dataDef &temp){
         }      
     } 
     ans[totalLen] = '\0';
+    dataDef n1;
     if (ans[0]== '0'){
-        dataDef n1(ans+1);
+         n1 = ans+1;
     }
-    else dataDef n1(ans);
+    else n1 = ans ;
     delete [] ans;
     delete [] bigoneDataToInt;
     delete [] process;
     return n1 ;
 } 
-char *dataDef::operator/(dataDef &temp){
+dataDef dataDef::operator/(dataDef &temp){
     int k= 1;
     if(len < temp.len || (len == temp.len && (k = strcmp(data,temp.data))<0 )) // data<temp.data
     {
         char *ans = new char[2];
         ans[0] = '0';
         ans[1] = '\0';
-        return ans;
+        dataDef n1(ans);
+        delete []ans;
+        return n1;
     }
     else if (len == temp.len && k == 0) { 
         char *ans = new char[2];
         ans[0] = '1';
         ans[1] = '\0'; 
-        return ans ;
+        dataDef n1(ans);
+        delete []ans;
+        return n1;
     }
    else { 
-   }  
-   char *ans = new char[len+1]; 
-   unsigned  int i =0;
-   char *p ;
-   dataDef c(*this),e;
-   stringstream ss;
-   while( c.data[0]!='-')
-   {
-       p = c  - temp ;
-       c = p;       
-       i++ ;
-       if (i== UINT_MAX) { 
-       ss<<i;
-       dataDef d((char *) ss.str().c_str());
-       e = ans ;
-       ans = e+d;  
-     }     
-   }    
-   return ans; 
+       unsigned  int i ,j = (unsigned int)(len - temp.len +2);
+       char *ans = new char[j];
+       dataDef c[9];
+       for (c[1] = temp, i = 2; i<10; ++i) { 
+            c[i] = c[i-1] +temp ;
+       }
+       dataDef dividend(*this); //被除数
+       j = j-1;
+       i = 0;
+        while(j--){
+            int t = strcmp(dividend.data,c[1].data) ;
+            if(t < 0) {
+                ans[i] = '0';
+                for(int k= 9;k>0;k--){
+                    
+                }            
+            }
+            
+            i++ ;
+        }
+
+   }   
+
 }
-dataDef &dataDef::operator=(char *str){
+dataDef &dataDef::operator=(const char *str){
     int strLength =(int) strlen(str);
     if( len!= strLength ){
         delete[] data;
@@ -248,11 +258,33 @@ dataDef &dataDef::operator=(char *str){
     len = strLength ;
     return *this;
 }
+dataDef & dataDef::operator=(const dataDef &n){ 
+
+    if (data == n.data) return *this ;
+    if(n.len == 0)
+    {
+       delete data;
+       data = NULL ;
+       len = 0; 
+       return *this;
+    }
+    if(len != n.len){
+        delete data;
+        data  = new char [n.len+1];
+        len = n.len ;
+    }
+    memcpy(data,n.data,(size_t)(n.len+1));
+    return *this;
+} 
+void dataDef::out(){
+    printf("%s",data);
+}
+
 int main(){
-    char input_operator ,*c;
+    char input_operator; 
     string  first,second;
     cin>>first>>input_operator>>second;
-    dataDef a((char *)first.c_str()),b((char *)second.c_str());
+    dataDef a(first.c_str()),b(second.c_str()),c;
     switch (input_operator) { 
         case '+':  
         { 
@@ -265,8 +297,6 @@ int main(){
         break;
         case '/':{c =a/b;}
         break;         
-        break; 
     } 
-    printf("%s",c);
-    delete c;
+    c.out();
 }

@@ -9,6 +9,8 @@
 /home/w/srcRep/learnc++/chapter4/solution4.cpp
 iostream
 -
+sstream
+-
 cstdio
 -
 cstring
@@ -16,5 +18,7 @@ cstring
 string
 -
 algorithm
+-
+climits
 -
 
