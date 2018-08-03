@@ -5,13 +5,12 @@ class MyInt  {
     public:
         MyInt(int n) { nVal = n; }
         int ReturnVal() { return nVal; }
-// 在此处补充你的代码
-    MyInt & operator-(int n){
-        nVal = nVal - n;
-        return (*this);
-    }
+        MyInt & operator-(int n){
+            nVal = nVal - n;
+            return *this;
+        }
 };
-int main ()  {
+int main (){
     MyInt objInt(10);
     objInt-2-1-3;
     cout << objInt.ReturnVal();

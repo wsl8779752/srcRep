@@ -21,6 +21,9 @@ class dataDef
         dataDef operator/(dataDef &temp);
         dataDef & operator=(const char *str);
         dataDef & operator=(const dataDef &temp);
+        dataDef & operator+=(const char &  Tempchar);
+        bool operator<=(dataDef &temp);
+        bool operator<(dataDef &temp);
         void out();
     private: 
         int len;
@@ -224,29 +227,34 @@ dataDef dataDef::operator/(dataDef &temp){
         return n1;
     }
    else { 
-       unsigned  int i ,j = (unsigned int)(len - temp.len +2);
-       char *ans = new char[j];
-       dataDef c[9];
-       for (c[1] = temp, i = 2; i<10; ++i) { 
-            c[i] = c[i-1] +temp ;
+       int i=0 ;
+       char *ans = new char[len - temp.len +2];
+       dataDef n2;
+       dataDef c[10];
+       for (c[1] = temp, i = 2; i < 10; ++i) { 
+            c[i] = c[i-1] + temp ;
+
        }
-       dataDef dividend(*this); //被除数
-       j = j-1;
-       i = 0;
-        while(j--){
-            int t = strcmp(dividend.data,c[1].data) ;
-            if(t < 0) {
-                ans[i] = '0';
-                for(int k= 9;k>0;k--){
-                    
-                }            
-            }
-            
-            i++ ;
-        }
-
-   }   
-
+       i = 0 ;
+       for(int j = len; j > 0 ; j--){
+           n2 += data[len - j];
+           if( n2 < c[1]){ 
+               if( i != 0)  ans[i++] = '0'; 
+               continue;
+           } 
+           for( k = 9 ; k > 0; k--){ 
+               if (c[k] <= n2) { 
+                   n2 = n2 - c[k];
+                   ans[i++ ] =(char)( k + '0');
+                   break;
+               }   
+           } 
+       }
+       ans[i] = '\0';
+       dataDef n1(ans);
+       delete []ans;
+       return n1 ;
+   }
 }
 dataDef &dataDef::operator=(const char *str){
     int strLength =(int) strlen(str);
@@ -276,6 +284,46 @@ dataDef & dataDef::operator=(const dataDef &n){
     memcpy(data,n.data,(size_t)(n.len+1));
     return *this;
 } 
+dataDef & dataDef::operator+=(const char &  Tempchar){ 
+    int i = 0;
+    if( Tempchar == '\0' ) return *this ;
+    if( data  == NULL ){ 
+         data  = new char[2];
+         data[0] = Tempchar ;
+         data[1] = '\0';
+         len = 1 ;
+         return *this;
+    } 
+    while(data[i] == '0') i++;
+    char *data2  = new char [len+2-i];
+    memcpy(data2,data+i,(size_t)( len+1-i));
+    delete data ;
+    data = data2 ;
+    i =0 ;
+    while(data[i] != '\0') i++;
+    data[i] = Tempchar ;
+    data[i+1] = '\0';
+    len = i+1;
+    return *this;
+} 
+bool dataDef::operator<=(dataDef &temp){
+    if(len > temp.len) return false;
+    else if( len == temp.len){
+        if(strcmp(data,temp.data) > 0 ) return false;
+        else return true;
+    }
+    else return true;
+}
+
+bool dataDef::operator<(dataDef &temp){ 
+    if( len < temp.len ) return true;
+    else if( len == temp.len){
+        if(strcmp(data,temp.data) < 0 ) return true;
+        else return false;
+    } 
+    else return false;
+} 
+
 void dataDef::out(){
     printf("%s",data);
 }
@@ -299,4 +347,5 @@ int main(){
         break;         
     } 
     c.out();
+    return 0;
 }
