@@ -167,32 +167,32 @@ program_name/fast:
 	$(MAKE) -f CMakeFiles/program_name.dir/build.make CMakeFiles/program_name.dir/build
 .PHONY : program_name/fast
 
-k1.o: k1.cpp.o
+solution4.o: solution4.cpp.o
 
-.PHONY : k1.o
+.PHONY : solution4.o
 
 # target to build an object file
-k1.cpp.o:
-	$(MAKE) -f CMakeFiles/program_name.dir/build.make CMakeFiles/program_name.dir/k1.cpp.o
-.PHONY : k1.cpp.o
+solution4.cpp.o:
+	$(MAKE) -f CMakeFiles/program_name.dir/build.make CMakeFiles/program_name.dir/solution4.cpp.o
+.PHONY : solution4.cpp.o
 
-k1.i: k1.cpp.i
+solution4.i: solution4.cpp.i
 
-.PHONY : k1.i
+.PHONY : solution4.i
 
 # target to preprocess a source file
-k1.cpp.i:
-	$(MAKE) -f CMakeFiles/program_name.dir/build.make CMakeFiles/program_name.dir/k1.cpp.i
-.PHONY : k1.cpp.i
+solution4.cpp.i:
+	$(MAKE) -f CMakeFiles/program_name.dir/build.make CMakeFiles/program_name.dir/solution4.cpp.i
+.PHONY : solution4.cpp.i
 
-k1.s: k1.cpp.s
+solution4.s: solution4.cpp.s
 
-.PHONY : k1.s
+.PHONY : solution4.s
 
 # target to generate assembly for a file
-k1.cpp.s:
-	$(MAKE) -f CMakeFiles/program_name.dir/build.make CMakeFiles/program_name.dir/k1.cpp.s
-.PHONY : k1.cpp.s
+solution4.cpp.s:
+	$(MAKE) -f CMakeFiles/program_name.dir/build.make CMakeFiles/program_name.dir/solution4.cpp.s
+.PHONY : solution4.cpp.s
 
 # Help Target
 help:
@@ -207,9 +207,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... install/strip"
 	@echo "... install/local"
-	@echo "... k1.o"
-	@echo "... k1.i"
-	@echo "... k1.s"
+	@echo "... solution4.o"
+	@echo "... solution4.i"
+	@echo "... solution4.s"
 .PHONY : help
 
 

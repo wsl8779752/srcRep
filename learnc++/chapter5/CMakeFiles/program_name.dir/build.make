@@ -57,38 +57,38 @@ include CMakeFiles/program_name.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/program_name.dir/flags.make
 
-CMakeFiles/program_name.dir/k1.cpp.o: CMakeFiles/program_name.dir/flags.make
-CMakeFiles/program_name.dir/k1.cpp.o: k1.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/w/srcRep/learnc++/chapter5/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/program_name.dir/k1.cpp.o"
-	g++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/program_name.dir/k1.cpp.o -c /home/w/srcRep/learnc++/chapter5/k1.cpp
+CMakeFiles/program_name.dir/solution4.cpp.o: CMakeFiles/program_name.dir/flags.make
+CMakeFiles/program_name.dir/solution4.cpp.o: solution4.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/w/srcRep/learnc++/chapter5/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/program_name.dir/solution4.cpp.o"
+	g++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/program_name.dir/solution4.cpp.o -c /home/w/srcRep/learnc++/chapter5/solution4.cpp
 
-CMakeFiles/program_name.dir/k1.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/program_name.dir/k1.cpp.i"
-	g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/w/srcRep/learnc++/chapter5/k1.cpp > CMakeFiles/program_name.dir/k1.cpp.i
+CMakeFiles/program_name.dir/solution4.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/program_name.dir/solution4.cpp.i"
+	g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/w/srcRep/learnc++/chapter5/solution4.cpp > CMakeFiles/program_name.dir/solution4.cpp.i
 
-CMakeFiles/program_name.dir/k1.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/program_name.dir/k1.cpp.s"
-	g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/w/srcRep/learnc++/chapter5/k1.cpp -o CMakeFiles/program_name.dir/k1.cpp.s
+CMakeFiles/program_name.dir/solution4.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/program_name.dir/solution4.cpp.s"
+	g++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/w/srcRep/learnc++/chapter5/solution4.cpp -o CMakeFiles/program_name.dir/solution4.cpp.s
 
-CMakeFiles/program_name.dir/k1.cpp.o.requires:
+CMakeFiles/program_name.dir/solution4.cpp.o.requires:
 
-.PHONY : CMakeFiles/program_name.dir/k1.cpp.o.requires
+.PHONY : CMakeFiles/program_name.dir/solution4.cpp.o.requires
 
-CMakeFiles/program_name.dir/k1.cpp.o.provides: CMakeFiles/program_name.dir/k1.cpp.o.requires
-	$(MAKE) -f CMakeFiles/program_name.dir/build.make CMakeFiles/program_name.dir/k1.cpp.o.provides.build
-.PHONY : CMakeFiles/program_name.dir/k1.cpp.o.provides
+CMakeFiles/program_name.dir/solution4.cpp.o.provides: CMakeFiles/program_name.dir/solution4.cpp.o.requires
+	$(MAKE) -f CMakeFiles/program_name.dir/build.make CMakeFiles/program_name.dir/solution4.cpp.o.provides.build
+.PHONY : CMakeFiles/program_name.dir/solution4.cpp.o.provides
 
-CMakeFiles/program_name.dir/k1.cpp.o.provides.build: CMakeFiles/program_name.dir/k1.cpp.o
+CMakeFiles/program_name.dir/solution4.cpp.o.provides.build: CMakeFiles/program_name.dir/solution4.cpp.o
 
 
 # Object files for target program_name
 program_name_OBJECTS = \
-"CMakeFiles/program_name.dir/k1.cpp.o"
+"CMakeFiles/program_name.dir/solution4.cpp.o"
 
 # External object files for target program_name
 program_name_EXTERNAL_OBJECTS =
 
-program_name: CMakeFiles/program_name.dir/k1.cpp.o
+program_name: CMakeFiles/program_name.dir/solution4.cpp.o
 program_name: CMakeFiles/program_name.dir/build.make
 program_name: CMakeFiles/program_name.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/w/srcRep/learnc++/chapter5/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable program_name"
@@ -99,7 +99,7 @@ CMakeFiles/program_name.dir/build: program_name
 
 .PHONY : CMakeFiles/program_name.dir/build
 
-CMakeFiles/program_name.dir/requires: CMakeFiles/program_name.dir/k1.cpp.o.requires
+CMakeFiles/program_name.dir/requires: CMakeFiles/program_name.dir/solution4.cpp.o.requires
 
 .PHONY : CMakeFiles/program_name.dir/requires
 

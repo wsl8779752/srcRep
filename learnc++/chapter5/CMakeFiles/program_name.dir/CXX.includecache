@@ -6,11 +6,19 @@
 
 #IncludeRegexTransform: 
 
-/home/w/srcRep/learnc++/chapter5/k1.cpp
+/home/w/srcRep/learnc++/chapter5/solution4.cpp
 iostream
 -
 string
 -
-algorithm
+cstdio
+-
+cstring
+-
+sstream
+-
+cstdlib
+-
+iomanip
 -
 

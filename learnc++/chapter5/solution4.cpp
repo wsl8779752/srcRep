@@ -11,13 +11,8 @@
 #include <cstring>
 #include <sstream>
 #include <cstdlib>
-#ifndef uint8_t
-#define uint8_t unsigned char
-#endif /* ifndef uint8_t */
+#include <iomanip>
 using namespace std;
-/**
- * @brief nimamabi
- */
 typedef enum warriortype{
     DRAGON =0,
     NINJA,
@@ -25,26 +20,30 @@ typedef enum warriortype{
     LION,
     WOLF,
 } WARRIORKIND;  
+class headQuators;
 const string  warrior_string[] = {"dragon","ninja","iceman","lion","wolf"};
 class Cwarrior 
 { 
     public: 
-        Cwarrior (WARRIORKIND wKind,string name); 
-        //virtual ~Cwarrior(){}; 
+        Cwarrior (WARRIORKIND wKind,headQuators *name); 
+        virtual ~Cwarrior(){} 
         static void  setwarriorConsumption(int *cost); 
         static int get_consumption(WARRIORKIND type){
             return consumption[type];
+        }
+        void *get_addr(){
+            return this;
         }
     private: 
         int hp;
         int number;
         int damage;
         WARRIORKIND type; 
-        string commandName;
+        headQuators *headQuatorsName;
         static int consumption[5];
 }; 
 int Cwarrior::consumption[5];
-Cwarrior::Cwarrior(WARRIORKIND wKind,string name):type(wKind),commandName(name){
+Cwarrior::Cwarrior(WARRIORKIND wKind,headQuators *name):type(wKind),headQuatorsName(name){
     hp = consumption[type];
 }
 void Cwarrior::setwarriorConsumption(int *cost){
@@ -61,13 +60,14 @@ class headQuators
         void setManufactorSequency();
         int produceWarriors();
     private: 
-        int lifeElement; 
-        int  manufactorSequency[5];
-        int warriorCount[5];
         string name;
-        int act;
-        int dataId;
         friend class Cwarrior;
+    protected:   
+        int  manufactorSequency[5];
+        int act;
+        int warriorCount[5];
+        int dataId;
+        int lifeElement; 
 }; 
 headQuators ::headQuators(string name1):name(name1){
     haveResourceToProNext = true ;
@@ -95,7 +95,7 @@ void headQuators::setManufactorSequency(){
 
 int headQuators:: produceWarriors(){
     WARRIORKIND tempkind ;
-    uint8_t actIndex;
+    int actIndex;
     for (unsigned int i = 0; i < 6; ++i) { 
         actIndex = manufactorSequency[act];
         tempkind=(WARRIORKIND) manufactorSequency[act];
@@ -137,30 +137,220 @@ void timeHourOutput(int &timeHour){
         cout<<timeHour; 
     } 
 }
+const string weaponsName[3] = { "sword","bomb","arrow"};
+class CWeapons 
+{ 
+    public: 
+        CWeapons(string name1,Cwarrior  *master1):name(name1),master(master1){
+        } 
+    private: 
+        string name;
+        Cwarrior *master;
+}; 
+class ninja:public Cwarrior 
+{ 
+    public: 
+          ninja(WARRIORKIND kind,headQuators *name,int n):Cwarrior(kind,name),num(n){ 
+              weapon1 = new CWeapons(weaponsName[num%3],this);
+              weapon2 = new CWeapons(weaponsName[(num+1)%3],this);
+              cout<<"It has a "<<weaponsName[num%3]<<" and a "<<weaponsName[(num+1)%3]<<endl;  
+        } 
+        virtual ~ninja(){
+            delete weapon1;
+            delete weapon2;
+        } 
+    private: 
+        int num;
+        CWeapons *weapon1;
+        CWeapons *weapon2;
+}; 
+class dragon:public Cwarrior
+{ 
+    public: 
+        dragon(WARRIORKIND kind,headQuators *name,int n,float m):Cwarrior(kind,name),num(n),morale(m){
+            weapon =  new CWeapons(weaponsName[num%3],this);
+            cout<<"It has a "<<weaponsName[num%3]<<",and it's morale is "<<fixed<< setprecision(2)<<morale<<endl;
+        } 
+        virtual ~dragon(){
+            delete weapon;
+        }
+    private: 
+        CWeapons *weapon;
+        int num;
+        float morale;
+}; 
+class iceman:public Cwarrior 
+{ 
+    public: 
+        iceman(WARRIORKIND kind,headQuators *name,int n):Cwarrior(kind,name),num(n){
+            weapon =  new CWeapons(weaponsName[num%3],this);
+            cout<<"It has a "<<weaponsName[num%3]<<endl;
+        } 
+        virtual ~iceman(){
+            delete weapon;
+        } 
+         
+    private: 
+        CWeapons *weapon;
+        int num;
+}; 
+class lion:public Cwarrior 
+{ 
+    public: 
+        lion(WARRIORKIND kind,headQuators *name,int n,int m):Cwarrior(kind,name),num(n),loyalty(m){
+            cout<<"It's loyalty is "<<loyalty<<endl;
+        } 
+    private: 
+        int num;
+        int loyalty;
+}; 
+class wolf:public Cwarrior{
+    public:
+        wolf(WARRIORKIND kind,headQuators *name,int n):Cwarrior(kind,name),num(n){}
+    private:
+        int num;
+};
+class CNewHeadQuator:public headQuators 
+{ 
+    public: 
+         CNewHeadQuator(string name1):headQuators(name1){
+             for ( int i = 0; i < 5; ++i) { 
+                warriorCountMax[i] = 10;
+             } 
+             ninjaIndex = new ninja*[10];
+             dragonIndex = new dragon*[10];
+             icemanIndex = new iceman*[10];
+             lionIndex = new lion*[10];
+             wolfIndex = new wolf*[10];        
+         } 
+        virtual ~CNewHeadQuator (){
+            int j;
+            for (  j = 0; j < warriorCount[NINJA]; ++j) { 
+                delete ninjaIndex[j];
+            } 
+            for (  j = 0; j < warriorCount[DRAGON]; ++j) { 
+                delete dragonIndex[j];
+            } 
+            for (  j = 0; j < warriorCount[ICEMAN]; ++j) { 
+                delete icemanIndex[j];
+            } 
+            for (  j = 0; j < warriorCount[LION]; ++j) { 
+                delete lionIndex[j];
+            } 
+            for (  j = 0; j < warriorCount[WOLF]; ++j) { 
+                delete wolfIndex[j];
+            } 
+            delete dragonIndex;
+            delete ninjaIndex;
+            delete icemanIndex;
+            delete lionIndex;
+            delete wolfIndex;
+        } 
+        void produceWarriors(){
+            headQuators::produceWarriors();
+            if(haveResourceToProNext == true){
+                int temp = act-1;
+                if (temp == -1)  temp = 4; 
+                int actindex = manufactorSequency[temp]; //actindex is NINJA,DRAGON etc
+                WARRIORKIND tempkind=(WARRIORKIND) manufactorSequency[temp];
+                int count = warriorCount[actindex]-1;
+                switch (tempkind) { 
+                    case NINJA: { 
+                       if( count >= warriorCountMax[actindex]) {
+                         warriorCountMax[actindex] += 10;       
+                         ninja **p = new ninja*[warriorCountMax[actindex]];
+                         memcpy( p,ninjaIndex, sizeof(ninja *)*(warriorCountMax[actindex]-10));
+                         delete ninjaIndex;
+                         ninjaIndex = p;
+                       }             
+                       ninjaIndex[count] = new ninja(tempkind,this,dataId) ;            
+                    } 
+                    break; 
+                    case DRAGON: { 
+                       if( count >= warriorCountMax[actindex]) {
+                         warriorCountMax[actindex] += 10;       
+                         dragon **p = new dragon*[warriorCountMax[actindex]];
+                         memcpy(p , dragonIndex, sizeof(dragon *)*(warriorCountMax[actindex]-10));
+                         delete dragonIndex;
+                         dragonIndex = p;
+                       }             
+                       dragonIndex[count] = new dragon(tempkind,this,dataId,(float)lifeElement/(float)Cwarrior::get_consumption(tempkind));
+                    } 
+                    break; 
+                    case ICEMAN: { 
+                       if( count >= warriorCountMax[actindex]) {
+                         warriorCountMax[actindex] += 10;       
+                         iceman **p = new iceman*[warriorCountMax[actindex]];
+                         memcpy(p , icemanIndex, sizeof(iceman *)*(warriorCountMax[actindex]-10));
+                         delete icemanIndex;
+                         icemanIndex = p;
+                       }             
+                       icemanIndex[count] = new iceman(tempkind,this,dataId);
+                    }
+                    break;             
+                    case LION: { 
+                       if( count >= warriorCountMax[actindex]) {
+                         warriorCountMax[actindex] += 10;       
+                         lion **p = new lion*[warriorCountMax[actindex]];
+                         memcpy(p , lionIndex, sizeof(lion *)*(warriorCountMax[actindex]-10));
+                         delete lionIndex;
+                         lionIndex = p;
+                       }             
+                       lionIndex[count] = new lion(tempkind,this,dataId,lifeElement);
+                    } 
+                    break;           
+                    case WOLF: { 
+                       if( count >= warriorCountMax[actindex]) {
+                         warriorCountMax[actindex] += 10;       
+                         wolf **p = new wolf*[warriorCountMax[actindex]];
+                         memcpy(p , wolfIndex, sizeof(wolf *)*(warriorCountMax[actindex]-10));
+                         delete wolfIndex;
+                         wolfIndex = p;
+                       }             
+                       wolfIndex[count] = new wolf(tempkind,this,dataId);
+                    } 
+                    break; 
+                    default : break;
+                }  
+            }
+        } 
+        
+    private:
+        ninja **ninjaIndex ;
+        dragon **dragonIndex ;
+        iceman **icemanIndex ;
+        lion **lionIndex ;
+        wolf **wolfIndex ;
+        int warriorCountMax[5] ;
+}; 
 int main(){
     unsigned int dataId;
     int *lifeElement,(*cost)[5];
     dealWithInput(dataId,lifeElement,cost);
-    headQuators RedCommand("red"), BlueCommand("blue");
     for (unsigned int i = 0; i < dataId; ++i) { 
-        RedCommand.setLifeElement(lifeElement[i]);
-        BlueCommand.setLifeElement(lifeElement[i]);
+        CNewHeadQuator* RedCommand=new CNewHeadQuator("red");
+        CNewHeadQuator* BlueCommand = new CNewHeadQuator("blue");
+        RedCommand->setLifeElement(lifeElement[i]);
+        BlueCommand->setLifeElement(lifeElement[i]);
         Cwarrior::setwarriorConsumption(cost[i]);
         cout<<"Case:"<<i+1<<endl;
         int timeHour=0;
-        while(RedCommand.haveResourceToProNext == true || BlueCommand.haveResourceToProNext ==true) 
+        while(RedCommand->haveResourceToProNext == true || BlueCommand->haveResourceToProNext ==true) 
         {
-            if(RedCommand.haveResourceToProNext == true ){
+            if(RedCommand->haveResourceToProNext == true ){
                 timeHourOutput(timeHour);
-                RedCommand.produceWarriors();
+                RedCommand->produceWarriors();
             }
-            if(BlueCommand.haveResourceToProNext == true){
+            if(BlueCommand->haveResourceToProNext == true){
                 timeHourOutput(timeHour);
-                BlueCommand.produceWarriors();
+                BlueCommand->produceWarriors();
             }
             timeHour++ ;
         }    
+        delete RedCommand;
+        delete BlueCommand;
     }
     delete []cost;
     delete []lifeElement;
+    return 0;
 }

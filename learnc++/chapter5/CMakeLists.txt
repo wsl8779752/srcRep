@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 3.5)
 
 PROJECT(BuildAll) 
-SET(SRC_LIST k1.cpp) 
+SET(SRC_LIST solution4.cpp) 
 #aux_source_directory(. DIR_SRCS)
 SET(CMAKE_CXX_COMPILER "g++") 
 SET(CMAKE_CXX_FLAGS "-std=c++11 -O0") 
