@@ -14,7 +14,7 @@
 #include <iomanip>
 #define TOTAL_WARRIOR_kIND 5
 using namespace std;
-
+static in  N,timeHour;
 typedef enum warriortype{
     DRAGON =0,
     NINJA,
@@ -22,6 +22,16 @@ typedef enum warriortype{
     LION,
     WOLF,
 } WARRIORKIND;  
+typedef enum {
+    NOFLAG=0,
+    READFLAH,
+    BLUEFLAG,
+}DFLAG;
+typedef enum{
+    DRAW = 0,
+    REDWIN ,
+    BLUEWIN,
+}DEFFIGHTRESULT;
 const string  warrior_string[] = {"dragon","ninja","iceman","lion","wolf"};
 const string weaponsName[3] = { "sword","bomb","arrow"};
 class headQuators;
@@ -55,6 +65,24 @@ class Cwarrior
         WARRIORKIND type; 
         headQuators *commander;
 }; 
+class CCity 
+{ 
+    public: 
+        CCity (int n):num(n){} 
+        virtual ~CCity (); 
+         
+    private: 
+        int num;
+        Cwarrior* newred;
+        Cwarrior* newblue;
+        DFLAG flag;
+        int lifeElement;
+        DEFFIGHTRESULT prefight;
+        DEFFIGHTRESULT actfight;
+
+
+
+}; 
 class headQuators 
 { 
     public: 
@@ -75,6 +103,7 @@ class headQuators
         void setManufactorSequency();
         virtual int produceWarriors();
         static void  setwarriorConsumption(int *cost); 
+        static void  setWarriorDamage(int *damage);
     private: 
         string name;
         friend class Cwarrior;
@@ -238,7 +267,7 @@ int headQuators:: produceWarriors(){
 void headQuators::setwarriorConsumption(int *cost){
     memcpy(consumption,cost,sizeof(int )*TOTAL_WARRIOR_kIND);
 }      
-void dealWithInput(unsigned int & dataId, int *& lifeElement,int (*&cost)[TOTAL_WARRIOR_kIND]){
+void dealWithInput(unsigned int & dataId, int *& lifeElement,int (*&cost)[TOTAL_WARRIOR_kIND],int (*&inputDamage)[TOTAL_WARRIOR_kIND]){
     cin>>dataId;
     lifeElement =  new int[dataId];
     cost = new int[dataId][TOTAL_WARRIOR_kIND];
@@ -246,6 +275,7 @@ void dealWithInput(unsigned int & dataId, int *& lifeElement,int (*&cost)[TOTAL_
         cin>>lifeElement[i]; 
         for (unsigned int j = 0; j < TOTAL_WARRIOR_kIND; ++j) { 
             cin>>cost[i][j];
+            cin>>inputDamage[i][j];
         } 
     } 
 }
@@ -261,25 +291,25 @@ void timeHourOutput(int &timeHour){
     } 
 }
 int main(){
-    unsigned int dataId;
-    int *lifeElement,(*cost)[TOTAL_WARRIOR_kIND];
-    dealWithInput(dataId,lifeElement,cost);
-    for (unsigned int i = 0; i < dataId; ++i) { 
+    unsigned int dataNum;
+    int *lifeElement,(*cost)[TOTAL_WARRIOR_kIND],(*inputDamage)[TOTAL_WARRIOR_kIND];
+    dealWithInput(dataNum,lifeElement,cost,inputDamage);
+    for (unsigned int i = 0; i < dataNum; ++i) { 
         headQuators* RedCommand=new headQuators("red");
         headQuators* BlueCommand = new headQuators("blue");
         RedCommand->setLifeElement(lifeElement[i]);
         BlueCommand->setLifeElement(lifeElement[i]);
        headQuators::setwarriorConsumption(cost[i]);
+       headQuartors::setWarriorDamage(inputDamage[i]);
         cout<<"Case:"<<i+1<<endl;
-        int timeHour=0;
         while(RedCommand->haveResourceToProNext == true || BlueCommand->haveResourceToProNext ==true) 
         {
             if(RedCommand->haveResourceToProNext == true ){
-                timeHourOutput(timeHour);
+                timeHourOutput(0);
                 RedCommand->produceWarriors();
             }
             if(BlueCommand->haveResourceToProNext == true){
-                timeHourOutput(timeHour);
+                timeHourOutput(0);
                 BlueCommand->produceWarriors();
             }
             timeHour++ ;
