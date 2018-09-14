@@ -26,19 +26,12 @@ typedef enum {
     NOFLAG=0,
     READFLAH,
     BLUEFLAG,
-}DFlag;
+}DFLAG;
 typedef enum{
     DRAW = 0,
     REDWIN ,
     BLUEWIN,
-}DFightResult;
-typedef enum {
-    NOFIGHT = 0,
-    redWin,
-    blueWin,
-    blueShotDeath,
-    redShotDeath
-} DFightResult;
+}DEFFIGHTRESULT;
 const string  warrior_string[] = {"dragon","ninja","iceman","lion","wolf"};
 const string weaponsName[3] = { "sword","bomb","arrow"};
 class headQuators;
@@ -57,7 +50,7 @@ class CWeapons
         string name;
         Cwarrior *master;
 }; 
-class CWarrior 
+class Cwarrior 
 { 
     public: 
         Cwarrior (headQuators *p); 
@@ -72,42 +65,24 @@ class CWarrior
         WARRIORKIND type; 
         headQuators *commander;
 }; 
-class CCity {
-private:
-	int num;
-protected:
-	CWarrior * newRed;
-	CWarrior * newBlue;
-    Cwarrior * oldRed;
-private:
-	DFlag flag;
-	DFightResult preFightResult;
-	DFightResult actFightResult;
-	int warriorShotByArrow;
-protected:
-	int lifeElement;
-private:
-	static int totalNum;
+class CCity 
+{ 
+    public: 
+        CCity (int n):num(n){} 
+        virtual ~CCity (); 
+         
+    private: 
+        int num;
+        Cwarrior* newred;
+        Cwarrior* newblue;
+        DFLAG flag;
+        int lifeElement;
+        DEFFIGHTRESULT prefight;
+        DEFFIGHTRESULT actfight;
 
-public:
-	CCity(int m = 0);
-	int getLifeElement();
-	void setLifeElement(int m);
-	void addlifeElement(int m = 10);
-	void march();
-	void  bombUsed();
-	void fight();
-	void  earnLifeElement();
-	void resetFlag();
-	void blueWarriorGetPrize();
-	void redWarriorGetPrize();
-	CWarrior * getNewblue();
-	void setNewblue(CWarrior * newblue);
-	CWarrior * getNewred();
-	void setNewred(CWarrior * newred);
-	void getTotalNum();
-	void setTotalNum(int totalNUM);
-};
+
+
+}; 
 class headQuators 
 { 
     public: 
@@ -209,141 +184,8 @@ class wolf:public Cwarrior{
     public:
         wolf(headQuators *p):Cwarrior(p){}
 };
-int CCity::totalNum = 0;
-CCity::CCity(int m ):num(m) {
-    flag = NOFLAG;
-    preFightResult = NOFIGHT;
-    actFightResult = NOFIGHT;
-    warriorShotByArrow = nullptr;
-    newBlue = nullptr;
-    newRed = nullptr ;
-    lifeElement = 0;
-}
 
-int CCity::getLifeElement() {
-    return lifeElement;
-}
-
-void CCity::setLifeElement(int m) {
-	this->lifeElement = m;
-}
-
-void CCity::addlifeElement(int m) {
-    lifeElement += m ;
-}
-
-void CCity::march() {  //march只负责将勇士向前推进，不负责记录逻辑
-    CCity *temp;
-  if( num != totalNum )  
-      temp = this +1 ;
-  else temp = City[num+1] ;
-  temp->setNewRedtoOld();
-  temp->setNewred(oldRed); 
- // 处理cout那些垃圾
-  if( newRed != nullptr ) {
-      Ctime::timeout(10);
-  }
-
-  if(num ! = 1)
-      temp = this -1;
-  else temp = City[0]}  ;
-      temp->setNewblue(newBlue);
- //处理ｃｏｕｔ垃圾
-}
-
-void  CCity::bombUsed() {
-	// TODO - implement CCity::bombUsed
-	throw "Not yet implemented";
-}
-
-void CCity::fight() {
-	// TODO - implement CCity::fight
-	throw "Not yet implemented";
-}
-
-void  CCity::earnLifeElement() {
-	// TODO - implement CCity::earnLifeElement
-	throw "Not yet implemented";
-}
-
-void CCity::resetFlag() {
-	// TODO - implement CCity::resetFlag
-	throw "Not yet implemented";
-}
-
-void CCity::blueWarriorGetPrize() {
-	// TODO - implement CCity::blueWarriorGetPrize
-	throw "Not yet implemented";
-}
-
-void CCity::redWarriorGetPrize() {
-	// TODO - implement CCity::redWarriorGetPrize
-	throw "Not yet implemented";
-}
-
-CWarrior * CCity::getNewblue() {
-	return this->newblue;
-}
-
-void CCity::setNewblue(CWarrior * newblue) {
-	this->newblue = newblue;
-}
-
-CWarrior * CCity::getNewred() {
-	return this->newred;
-}
-
-void CCity::setNewred(CWarrior * newred) {
-	this->newred = newred;
-}
-
-void CCity::setNewblue(CWarrior * newblue) {
-	// TODO - implement CCity::setNewblue
-	throw "Not yet implemented";
-}
-
-void CCity::setNewred(CWarrior * newred) {
-	// TODO - implement CCity::setNewred
-	throw "Not yet implemented";
-}
-
-void CCity::setNewblue(CWarrior * newblue) {
-	this->newblue = newblue;
-}
-
-void CCity::setNewred(CWarrior * newred) {
-	this->newred = newred;
-}
-
-void CCity::setNewblue(CWarrior * newblue) {
-	// TODO - implement CCity::setNewblue
-	throw "Not yet implemented";
-}
-
-void CCity::setNewred(CWarrior * newred) {
-	// TODO - implement CCity::setNewred
-	throw "Not yet implemented";
-}
-
-void CCity::setNewblue(CWarrior * newblue) {
-	// TODO - implement CCity::setNewblue
-	throw "Not yet implemented";
-}
-
-void CCity::setNewred(CWarrior * newred) {
-	// TODO - implement CCity::setNewred
-	throw "Not yet implemented";
-}
-
-void CCity::setNewblue(CWarrior * newblue) {
-	// TODO - implement CCity::setNewblue
-	throw "Not yet implemented";
-}
-
-void CCity::setNewred(CWarrior * newred) {
-	// TODO - implement CCity::setNewred
-	throw "Not yet implemented";
-}
+ 
 headQuators ::headQuators(string name1):name(name1){
     haveResourceToProNext = true ;
     act = 0;
@@ -425,33 +267,19 @@ int headQuators:: produceWarriors(){
 void headQuators::setwarriorConsumption(int *cost){
     memcpy(consumption,cost,sizeof(int )*TOTAL_WARRIOR_kIND);
 }      
-void dealWithInput(int& M,int& N,int& K,int& R,int& T,int *cost,int *inputDamage){
-    cin>>M;
-    cin>>N;
-    cin>>R;
-    cin>>K;
-    cin>>T;    
-    for (unsigned int j = 0; j < TOTAL_WARRIOR_kIND; ++j) { 
-        cin>>cost[j];
-        cin>>inputDamage[j];
+void dealWithInput(int& M,int& N,int& K,int& R,int& T,int (&cost)[TOTAL_WARRIOR_KIND],int (&inputDamage)[TOTAL_WARRIOR_KIND]){
+    cin>>dataId;
+    lifeElement =  new int[dataId];
+    cost = new int[dataId][TOTAL_WARRIOR_kIND];
+    for (unsigned int i = 0; i < dataId; ++i) { 
+        cin>>lifeElement[i]; 
+        for (unsigned int j = 0; j < TOTAL_WARRIOR_kIND; ++j) { 
+            cin>>cost[i][j];
+            cin>>inputDamage[i][j];
+        } 
     } 
 }
-void headQuators::march(){
-    City *temp;
-    if (name == "red" ) {
-        temp = City[1];
-        temp->setNewRedtoOld();
-        temp->setNewred(newRed);
-        //处理ｃｏｕｔ
-        return ;
-    }
-    if( name == "blue"){
-        temp = City[totalNum];
-        temp->setNewblue(newBLue);
-        //处理ｃｏｕｔ
-        return ;
-    }
-}
+
 class Ctime 
 { 
     public: 
@@ -459,51 +287,49 @@ class Ctime
         virtual ~Ctime (); 
         static void timeincrease(){time++;}
         static void resettime(){time = 0;}
-        static void timeout(); 
-        static int getseond(int psecond){ second = psecond; return time*60 + second;}
+        void timeout(); 
+        int getseond(int psecond){ second = psecond; return time*60 + second;}
     private: 
         static int time;
         int second ;
 }; 
-static void Ctime::timeout(){
+void Ctime::timeout(){
     printf("%03d",time);
     printf("%02d",second);
 }
 int Ctime::time = 0;
 int main(){
     unsigned int dataNum;  //数据测试组数
-    //定义参数，用以处理输入参数。例如城市生命源，城市数目等
-    int M,N,K,R,T,cost[TOTAL_WARRIOR_kIND],inputDamage[TOTAL_WARRIOR_kIND]; 
+    int M,N,K,R,T,cost[TOTAL_WARRIOR_kIND],inputDamage[TOTAL_WARRIOR_kIND]; //输入的生命元，城市数目等参数
     cin>>dataNum;
     for(unsigned int actcase = 0; actcase< dataNum; actcase++){
-        cout<<"Case "<< actcase + 1 <<":"<<endl;
-        dealWithInput(M,N,K,R,T,cost,inputDamage);
-        Ctime battletime;
-        headQuators* RedCommand=new headQuators("red");
-        headQuators* BlueCommand = new headQuators("blue");
-        while( RedCommand->taken ! =  true ||  BlueCommand -> taken!= true )
-        RedCommand->setLifeElement(lifeElement[i]);
-        BlueCommand->setLifeElement(lifeElement[i]);
-        headQuators::setwarriorConsumption(cost[i]);
-        headQuartors::setWarriorDamage(inputDamage[i]);
-        cout<<"Case:"<<i+1<<endl;
-        while(RedCommand->haveResourceToProNext == true || BlueCommand->haveResourceToProNext ==true) 
-        {
-            if(RedCommand->haveResourceToProNext == true ){
-                timeHourOutput(0);
-                RedCommand->produceWarriors();
-            }
-            if(BlueCommand->haveResourceToProNext == true){
-                timeHourOutput(0);
-                BlueCommand->produceWarriors();
-            }
-            timeHour++ ;
-        }    
-        delete RedCommand;
-        delete BlueCommand;
-    }
-    delete []cost;
-    delete []lifeElement;
-    return 0;
+        dealwithinput(M,N,K,R,T,cost,inputDamage);
 
+            headQuators* RedCommand=new headQuators("red");
+
+            headQuators* BlueCommand = new headQuators("blue");
+            RedCommand->setLifeElement(lifeElement[i]);
+            BlueCommand->setLifeElement(lifeElement[i]);
+            headQuators::setwarriorConsumption(cost[i]);
+            headQuartors::setWarriorDamage(inputDamage[i]);
+            cout<<"Case:"<<i+1<<endl;
+            while(RedCommand->haveResourceToProNext == true || BlueCommand->haveResourceToProNext ==true) 
+            {
+                if(RedCommand->haveResourceToProNext == true ){
+                    timeHourOutput(0);
+                    RedCommand->produceWarriors();
+                }
+                if(BlueCommand->haveResourceToProNext == true){
+                    timeHourOutput(0);
+                    BlueCommand->produceWarriors();
+                }
+                timeHour++ ;
+            }    
+            delete RedCommand;
+            delete BlueCommand;
+        }
+        delete []cost;
+        delete []lifeElement;
+        return 0;
+    
 }
