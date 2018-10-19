@@ -8,6 +8,7 @@
 #include <cstring>
 #include <iostream>
 #include <cstdio> 
+#include <iomanip> 
 using namespace std;
 #define TOTAL_WARRIOR_KIND 5
 typedef enum warriortype{
@@ -123,7 +124,7 @@ class CWarrior {
         void setArrow(CArrow * arrow);
         /** * 普通武士的march就是设定城市 */
         virtual bool escape();
-        virtual void marchToCity(CCity * nextCity = nullptr);
+        virtual void marchToCity(CCity * nextCity = NULL);
         void takeLifeElement(int m);  //30分没战斗取得生命远
         void shotByArrow(int m);
         virtual int attack(CWarrior* p);
@@ -146,7 +147,7 @@ class CWarrior {
 };
 class CDragon : public CWarrior {
     private:
-        float morale;
+        double morale;
     public:
         CDragon(CHeadquator* p);
         virtual ~CDragon();
@@ -342,9 +343,9 @@ CWarrior::CWarrior(CHeadquator *p):commander(p){
         //"born"<<endl; //with strength "<<hp;
     //cout<<','<<commander-> warriorCount[actIndex]<<' '<<warrior_string[actIndex]<<" in "<<commander->name <<" headquarter"<<endl;
     actCity=p;
-    sword = nullptr;
-    bomb = nullptr;
-    arrow = nullptr;    
+    sword = NULL;
+    bomb = NULL;
+    arrow = NULL;    
 }
 CWarrior::~CWarrior() {
     delete sword;
@@ -490,12 +491,12 @@ void CWarrior::hpAndForceOutput() {
 //000:35 blue dragon 1 shot and killed red lion 4
 /*表示在 0点35分，编号为1的蓝魔dragon武士射出一支箭，杀死了编号为4的红魔lion。*/
 void CWarrior::useArrow(CWarrior *p){
-   if( arrow == nullptr ) return;  //无箭
+   if( arrow == NULL ) return;  //无箭
    arrow->used();  //有箭用箭
    p->shotByArrow(CArrow::getR());  //对方被射伤 
    if( arrow->getAvailableTimes() == 0 ) { //使用到了３次
         delete arrow;  //arrow没了
-        arrow = nullptr;
+        arrow = NULL;
    }
    Ctime::out();
    nameIdOutput();
@@ -509,12 +510,12 @@ void CWarrior::useArrow(CWarrior *p){
 //输出样例： 000:38 blue dragon 1 used a bomb and killed red lion 7
 //表示在 0点38分，编号为1的蓝魔dragon武士用炸弹和编号为7的红魔lion同归于尽。
 bool CWarrior::useBomb(CWarrior *p){
-    if(bomb == nullptr) return false;
+    if(bomb == NULL) return false;
     //bomb->used(); 
-    //bomb = nullptr;
-    actCity = nullptr;
-    p->setCity(nullptr); 
-    //p->setBomb(nullptr); //按说这里是需要设置的，但不影响最终结果
+    //bomb = NULL;
+    actCity = NULL;
+    p->setCity(NULL); 
+    //p->setBomb(NULL); //按说这里是需要设置的，但不影响最终结果
     Ctime::out();
     nameIdOutput();
     cout<<" used a bomb and killed ";
@@ -524,17 +525,17 @@ bool CWarrior::useBomb(CWarrior *p){
 }
 //勇士使用剑，信息输出在上层,因为有些勇士不用剑，也能攻击
 void CWarrior::useSword(){
-    if( sword == nullptr) return;
+    if( sword == NULL) return;
     else {
         sword->used();
         if( sword->getDamage() <= 0){
             delete sword;
-            sword = nullptr;
+            sword = NULL;
         } 
     } 
 }
 int CWarrior::getSwordDamage(){
-    return sword == nullptr? 0: sword->getDamage(); 
+    return sword == NULL? 0: sword->getDamage(); 
 }
 void CWarrior::earnLifeElement(int m){
     Ctime::out();
@@ -550,13 +551,13 @@ void CWarrior::weaponNmInfoOutput(){
     nameIdOutput();
     cout<<" has ";
     if( arrow || bomb || sword ){
-        if (arrow != nullptr) printf("arrow(%d)",arrow->getAvailableTimes());  
-        if( bomb != nullptr) {
-            if( arrow != nullptr) cout<<",";
+        if (arrow != NULL) printf("arrow(%d)",arrow->getAvailableTimes());  
+        if( bomb != NULL) {
+            if( arrow != NULL) cout<<",";
             cout<<"bomb";
         }   
-        if( sword != nullptr){
-            if( bomb != nullptr || arrow!= nullptr) cout<<",";
+        if( sword != NULL){
+            if( bomb != NULL || arrow!= NULL) cout<<",";
             printf("sword(%d)",sword->getDamage()); 
         }
         cout<<endl;
@@ -566,9 +567,10 @@ void CWarrior::weaponNmInfoOutput(){
 }
 
 CDragon::CDragon(CHeadquator *p):CWarrior(p){
-    morale = float( commander->getLifeElement()) /(float)hp ;
+    morale = double( commander->getLifeElement()) /(double)hp ;
     equipWeapon(num);
-    printf("Its morale is %.2f\n",morale);
+    //printf("Its morale is %.2f\n",morale);
+    cout<<"Its morale is "<<fixed<<setprecision(2)<<morale<<endl;
 }
 CDragon::~CDragon(){}
 //dragon类的战斗逻辑需要考虑杀死敌人，士气增加，未获胜，士气值减少
@@ -591,7 +593,7 @@ CDragon::~CDragon(){}
 //dragon 在一次在它主动进攻的战斗结束后，如果还没有战死，而且士气值大于0.8，就会欢呼
 //输出样例：003:40 blue dragon 2 yelled in city 4
 void CDragon::cheerUp(){
-    if ( morale >(float)0.8) { 
+    if ( morale >0.8) { 
         Ctime::out();
         nameIdOutput();
        cout<<" yelled in city "<< actCity->getNum()<<endl;   
@@ -668,7 +670,7 @@ bool CLion::escape(){
         //cout<<" ";
         nameIdOutput();        
         cout<<" ran away"<<endl;
-        actCity = nullptr;
+        actCity = NULL;
         return true; 
     }
     else 
@@ -694,22 +696,22 @@ void CWolf::fightBack(CWarrior *p){
 bool CWolf::confiscated(CWarrior *p){
     CWeapon *temp;
     bool result =  false ;
-    if(sword == nullptr && (temp= p->getSword())!= nullptr)  //自己没的才缴获 
+    if(sword == NULL && (temp= p->getSword())!= NULL)  //自己没的才缴获 
     {
         sword = (CSword*) temp ;
-        p->setSword(nullptr);
+        p->setSword(NULL);
         result = true;
     }
-    if(arrow == nullptr && (temp= p->getArrow())!= nullptr)  //自己没的才缴获 
+    if(arrow == NULL && (temp= p->getArrow())!= NULL)  //自己没的才缴获 
     {
         arrow = (CArrow*)temp ;
-        p->setArrow(nullptr);
+        p->setArrow(NULL);
         result = true;
     }
-    if(bomb == nullptr && (temp= p->getBomb())!= nullptr)  //自己没的才缴获 
+    if(bomb == NULL && (temp= p->getBomb())!= NULL)  //自己没的才缴获 
     {
         bomb = (CBomb *)temp ;
-        p->setBomb(nullptr);
+        p->setBomb(NULL);
         result = true;
     }
    return result; 
@@ -723,10 +725,10 @@ CCity::CCity(int m):num(m) {
     flag = NOFLAG;
     preFightResult = NOFIGHT;
     actFightResult = NOFIGHT;
-    newBlue = nullptr;
-    newRed = nullptr ;
-    oldRed = nullptr;
-    warriorShotByEnemy = nullptr;
+    newBlue = NULL;
+    newRed = NULL ;
+    oldRed = NULL;
+    warriorShotByEnemy = NULL;
 }
 CCity::~CCity(){}
 int CCity::getNum(){ return num;}
@@ -743,11 +745,11 @@ void CCity::produceLifeElement() {
 }
 //30分不战斗时获取生命元
 void  CCity::lifeElementTaken() {
-    if( newRed != nullptr && newBlue == nullptr) {  //只有红方武士
+    if( newRed != NULL && newBlue == NULL) {  //只有红方武士
         newRed->takeLifeElement(lifeElement); //红方武士取走生命元并传送到司令部
         lifeElement = 0;
     }
-    if( newRed == nullptr && newBlue != nullptr) {  //只有蓝方武士
+    if( newRed == NULL && newBlue != NULL) {  //只有蓝方武士
         newBlue->takeLifeElement(lifeElement); //蓝方武士取走生命元并传送到司令部
         lifeElement = 0;
     }
@@ -783,11 +785,11 @@ CWarrior *CCity::getOldRed(){
     return oldRed; 
 } 
 void CCity::lionEscape(){
-   if( newRed!=nullptr && newRed->escape()==true ){
-          newRed = nullptr;
+   if( newRed!=NULL && newRed->escape()==true ){
+          newRed = NULL;
    }  
-   if(newBlue!=nullptr && newBlue->escape()==true) { 
-       newBlue = nullptr ; 
+   if(newBlue!=NULL && newBlue->escape()==true) { 
+       newBlue = NULL ; 
    } 
 #ifdef TEST_MODE
    cout<<"city "<<num<<" lion escape "<<endl;
@@ -796,30 +798,30 @@ void CCity::lionEscape(){
 void CCity::march(){
     oldRed = newRed;
     newRed = City[num-1]->getOldRed();
-    if( newRed != nullptr) newRed->marchToCity(this);
+    if( newRed != NULL) newRed->marchToCity(this);
     newBlue = City[num+1]->getNewBlue();
-    if( newBlue != nullptr) newBlue->marchToCity(this);    
+    if( newBlue != NULL) newBlue->marchToCity(this);    
 }
 void CCity::releaseArrow(){
    CWarrior *p; 
    //红武士所在城市的右方是蓝军司令部，不需要放箭,因为敌人已经在10分时走掉，
    //但程序上没有写敌人走掉的逻辑，实际上此时程序运行的实际状态是有敌人
    //后续在中秋节后第一天写了加上敌人走掉的逻辑，但是这里有敌人的逻辑不更新了
-   if( newRed != nullptr && num != totalNum) //本城市的右方不是敌方司令部
+   if( newRed != NULL && num != totalNum) //本城市的右方不是敌方司令部
    {
        p = City[num+1]->getNewBlue();  //取得下一步要到达城市的敌人地址
-       if( p != nullptr ) newRed->useArrow(p); 
+       if( p != NULL ) newRed->useArrow(p); 
    }  
    //蓝武士所在城市的左方如果是红军司令部，不需要放箭,因为敌人已经在10分时走掉
-   if( newBlue != nullptr && num!= 1) {
+   if( newBlue != NULL && num!= 1) {
        p = City[num-1]->getNewRed(); //取得下一步要走到城市的敌人地址
-       if( p != nullptr ) newBlue->useArrow(p); 
+       if( p != NULL ) newBlue->useArrow(p); 
    }
 }
 //射箭结果影响到后续缴获武器，旗帜更换等，所以必须要记录在这里
 //另外的一个问题是，由于相邻的敌人可以用箭射死对方，在一个地点无法预知下一个
 //地点的敌人是否会用箭射死自己，所以必须先输出射死，在这里记录newRed 或者
-//newBLue = nullptr的逻辑
+//newBLue = NULL的逻辑
 // 这里记录战斗结果的逻辑如下：
 // 1.没发生射击，NOFIGHT 
 // 2.在无敌人的情况下被射死，NOFIGHT
@@ -829,26 +831,26 @@ void CCity::releaseArrow(){
 // 4.发生了射击，但没有人被射死 NOFIGHT
 void CCity::recordArrowResult(){
     //城市在被射之前整个城市无人，当然NOFIGHT 
-    if( newRed == nullptr && newBlue == nullptr) return ;
+    if( newRed == NULL && newBlue == NULL) return ;
     //城市在被射之前只有newRed一人的情况，NOFIGHT
-    if( newRed != nullptr && newBlue == nullptr){
+    if( newRed != NULL && newBlue == NULL){
        // newRed在无人的情况下被射死，NOFIGHT
-        if(newRed->getHp() <= 0) newRed = nullptr;
+        if(newRed->getHp() <= 0) newRed = NULL;
         //这里没写的else相对应的在无人的情况下没被射死或者没被射，还是NOFIGHT
         return; 
     }
     //城市在被射之前只有newBlue一人的情况，NOFIGHT
-    if( newBlue != nullptr && newRed == nullptr){ 
+    if( newBlue != NULL && newRed == NULL){ 
         //newBlue在无人的情况下被射死，NOFIGHT
-        if(newBlue->getHp() <= 0) newBlue = nullptr;
+        if(newBlue->getHp() <= 0) newBlue = NULL;
         return;  
     }
     //剩下的情况是被射之前城市有两个武士
     if( newBlue->getHp() <=0 ){ //蓝武士被射死 
         warriorShotByEnemy  = newBlue;
-        newBlue = nullptr;
+        newBlue = NULL;
         if( newRed ->getHp() <= 0) {//红武士也被射死，NOFIGHT
-            newRed = nullptr;
+            newRed = NULL;
             return;
         } 
         //红武士没被射死
@@ -860,33 +862,33 @@ void CCity::recordArrowResult(){
         //这里不存在蓝武士被射死的情况，因为有这种情况在之前已经return了，只存
         //在红武士被射死的情况
         warriorShotByEnemy = newRed;
-        newRed = nullptr;
+        newRed = NULL;
         actFightResult = REDSHOTDEATH;
     }
     /*//newRed在经过release放箭后，生命值不大于0，说明被射死*/
-    //if ( newRed!= nullptr && newRed->getHp()<= 0 ) { 
-        //newRed->setCity(nullptr);
+    //if ( newRed!= NULL && newRed->getHp()<= 0 ) { 
+        //newRed->setCity(NULL);
         //warriorShotByEnemy = newRed ;
-        //newRed = nullptr;
-        //if( newBlue != nullptr ){  //有敌人存在
+        //newRed = NULL;
+        //if( newBlue != NULL ){  //有敌人存在
             //if( newBlue->getHp() <=0 ) //两个都被射死 
                 //actFightResult = BOTHSHOTDEATH;
             //else actFightResult = REDSHOTDEATH;
-        //} //这里如果newBlue ==nullptr，那么实际上就是没人的地方武士被射死，
+        //} //这里如果newBlue ==NULL，那么实际上就是没人的地方武士被射死，
        ////这种情况什么（包括旗帜更换，武士拿生命元，武士获得奖励等）也不会发生
        ////所以等同与战斗结果NOFIGHT  
     //}     
-    //if (newBlue != nullptr && newBlue->getHp()<= 0 ) { 
-        //newBlue ->setCity(nullptr);
+    //if (newBlue != NULL && newBlue->getHp()<= 0 ) { 
+        //newBlue ->setCity(NULL);
         //warriorShotByEnemy = newBlue;
-        //newBlue = nullptr;  
-        //if( newRed != nullptr) actFightResult = BLUESHOTDEATH;
+        //newBlue = NULL;  
+        //if( newRed != NULL) actFightResult = BLUESHOTDEATH;
     /*}*/ 
 }
 //评估是否使用炸弹
 void CCity::bombUsed(){
     int warriorDamage,swordDamage,hp;
-    if( newRed != nullptr && newBlue != nullptr){  //有两个武士才评估是否使用炸弹
+    if( newRed != NULL && newBlue != NULL){  //有两个武士才评估是否使用炸弹
         CWarrior *attacker = newRed;
         CWarrior *target = newBlue;
         if( flag == BLUEFLAG || (flag == NOFLAG && num%2 ==0 )) {//蓝方主动攻击 
@@ -899,8 +901,8 @@ void CCity::bombUsed(){
         if( warriorDamage+swordDamage >= hp ){   //主动攻击者直接杀死目标
             //底层判断武士是否有炸弹，有使用，返回真，否则返回假
             if( target->useBomb(attacker) ){  
-                newRed = nullptr;
-                newBlue = nullptr;
+                newRed = NULL;
+                newBlue = NULL;
             }
             return ;
         }  
@@ -912,8 +914,8 @@ void CCity::bombUsed(){
             hp = attacker->getHp();
             if( warriorDamage+swordDamage >= hp ){
                 if( attacker->useBomb(target) == true){ 
-                    newRed = nullptr;
-                    newBlue = nullptr;
+                    newRed = NULL;
+                    newBlue = NULL;
                     return  ;
                 } 
             }  
@@ -922,7 +924,7 @@ void CCity::bombUsed(){
     }    
 }
 void CCity::fight() {
-    if( newRed != nullptr && newBlue != nullptr){//只有两个武士的情况下才会战斗
+    if( newRed != NULL && newBlue != NULL){//只有两个武士的情况下才会战斗
         CWarrior *attacker = newRed;
         CWarrior *target = newBlue;
         int reverse1 = -1;
@@ -935,8 +937,8 @@ void CCity::fight() {
         if( reverse1 * k == 0) actFightResult = DRAW;
         else if( reverse1*k == 1) actFightResult = REDWIN;
         else actFightResult = BLUEWIN;
-        newRed = actFightResult == BLUEWIN? nullptr:newRed;
-        newBlue = actFightResult == REDWIN? nullptr:newBlue;
+        newRed = actFightResult == BLUEWIN? NULL:newRed;
+        newBlue = actFightResult == REDWIN? NULL:newBlue;
     }
     //处理被剑射死的欢呼
     if( actFightResult == BLUESHOTDEATH){ 
@@ -1023,11 +1025,11 @@ bool CCity::redWarriorGetPrize(){
 /*}*/
 
 void CCity::redWarriorReportWeapon(){
-    if( newRed == nullptr ) return;
+    if( newRed == NULL ) return;
     newRed->weaponNmInfoOutput();     
 }
 void CCity::blueWarriorReportWeapon(){
-    if( newBlue == nullptr ) return;
+    if( newBlue == NULL ) return;
     newBlue->weaponNmInfoOutput();     
 }
 
@@ -1048,7 +1050,7 @@ CHeadquator::CHeadquator(string name1):CCity(0),name(name1){
     earnedLifeElement = 0;
     totalMax = 100;
     if(name == "blue") num = totalNum+1;
-    arrivedEnemy = nullptr;
+    arrivedEnemy = NULL;
 }
 CHeadquator::~CHeadquator(){ 
     for (unsigned int i = 0; i < TOTAL_WARRIOR_KIND; ++i) { 
@@ -1115,12 +1117,12 @@ void CHeadquator::setNewRedAndNewBlue(){
    int i = (act-1+TOTAL_WARRIOR_KIND)%TOTAL_WARRIOR_KIND;
    int actIndex = manufactorSequency[i];
    if( name == "red"){
-       if( produceResult == false) newRed = nullptr;                
+       if( produceResult == false) newRed = NULL;                
        else newRed =  warriorP[actIndex][warriorCount[actIndex]-1];
        return;
    }
    else{
-       if( produceResult == false) newBlue = nullptr;                
+       if( produceResult == false) newBlue = NULL;                
        else newBlue =  warriorP[actIndex][warriorCount[actIndex]-1];
    }
 }
@@ -1174,8 +1176,8 @@ int CHeadquator:: produceWarriors(){
         produceResult = true;
         return 1;
     }
-    /*if( name == "red" ) newRed = nullptr;*/
-    /*else newBlue = nullptr;*/
+    /*if( name == "red" ) newRed = NULL;*/
+    /*else newBlue = NULL;*/
     //act = (act+1)%TOTAL_WARRIOR_KIND ;
     //}
     produceResult = false ;
@@ -1184,21 +1186,21 @@ int CHeadquator:: produceWarriors(){
 }
 void  CHeadquator::lionEscape(){
         if(name == "red") { 
-            if( newRed != nullptr && newRed->escape() == true)
-                newRed  = nullptr;               
+            if( newRed != NULL && newRed->escape() == true)
+                newRed  = NULL;               
             return;
         } 
-        if ( newBlue != nullptr && newBlue->escape() == true )
-            newBlue = nullptr; 
+        if ( newBlue != NULL && newBlue->escape() == true )
+            newBlue = NULL; 
 }
-/*if( RedCommand->getNewBlue() != nullptr ){//红方司令部有新到的蓝武士*/
+/*if( RedCommand->getNewBlue() != NULL ){//红方司令部有新到的蓝武士*/
 ////是第一次到达的话，设定到达为真
 //if(RedCommand->getArrived() == false)
 //RedCommand->setArrived(true);  
 ////如果之前已经有武士到达，说明司令部被占领
 //else RedCommand->setTaken(true);
 /*}*/ 
-/*if( BlueCommand->getNewRed() != nullptr){//蓝方司令部有新到的红武士*/
+/*if( BlueCommand->getNewRed() != NULL){//蓝方司令部有新到的红武士*/
 ////是第一次到达的话，设定到达为真
 //if(BlueCommand->getArrived() == false)
 //BlueCommand->setArrived(true);
@@ -1208,9 +1210,9 @@ void  CHeadquator::lionEscape(){
 void CHeadquator::march(){ //march 之前必须保证newRed 和　newBlue是正确的
     if (name == "red" ) {
         oldRed = newRed;
-        newRed = nullptr;
+        newRed = NULL;
         newBlue = City[num+1]-> getNewBlue();
-        if(newBlue != nullptr) {
+        if(newBlue != NULL) {
             newBlue->marchToCity(this); 
             arrivedEnemy = newBlue;
             if( arrived == false ) {
@@ -1221,9 +1223,9 @@ void CHeadquator::march(){ //march 之前必须保证newRed 和　newBlue是正�
         }    
     }
     if( name == "blue"){
-        newBlue = nullptr;
+        newBlue = NULL;
         newRed = City[num-1]->getOldRed();
-        if (newRed != nullptr) {
+        if (newRed != NULL) {
             newRed-> marchToCity(this); 
             arrivedEnemy = newRed;
             if( arrived == false){
@@ -1250,13 +1252,13 @@ void CHeadquator::reportLifeElement(){
     cout<<lifeElement<<" elements in "<<name<<" headquarter"<<endl;
 }
 void CHeadquator::redWarriorReportWeapon(){
-    if( name == "blue" && arrivedEnemy != nullptr)
+    if( name == "blue" && arrivedEnemy != NULL)
     {   
         arrivedEnemy->weaponNmInfoOutput(); 
     }
 }
 void CHeadquator::blueWarriorReportWeapon(){
-    if(name == "red" && arrivedEnemy != nullptr){
+    if(name == "red" && arrivedEnemy != NULL){
         arrivedEnemy->weaponNmInfoOutput();
     }
 }

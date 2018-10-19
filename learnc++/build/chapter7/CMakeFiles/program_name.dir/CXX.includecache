@@ -6,10 +6,16 @@
 
 #IncludeRegexTransform: 
 
-/home/w/srcRep/learnc++/src/chapter6/final.cpp
+/home/w/srcRep/learnc++/src/chapter7/solution4.cpp
+iostream
+-
+cctype
+-
+cstdlib
+-
 cstring
 -
-iostream
+string
 -
 cstdio
 -
