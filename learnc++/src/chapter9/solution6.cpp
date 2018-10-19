@@ -5,8 +5,7 @@ using namespace std;
 class CPlayer 
 { 
     public: 
-        CPlayer(); 
-        virtual ~CPlayer (); 
+        CPlayer() {}
         unsigned int power;
         int id;
 }; 
@@ -18,13 +17,19 @@ int main()
     facer.insert(dmmp::value_type(1000000000,1));
     CPlayer newPlayer;
     cin>>n;
-    dmmp::iterator i,lower,upper;
+    dmmp::iterator i,enemy,upper;
     while(n--){
         cin>>newPlayer.id>>newPlayer.power;
         i = facer.insert(make_pair(newPlayer.power,newPlayer.id)); 
-        lower = i-1;
-        upper = i+1;
-        int temp = ;
+        enemy =--i;
+        upper =(++++i);
+        i--;
+        unsigned int temp = (*i).first - (*enemy).first; 
+        if( (*upper).first -(*i).first < temp )
+        {  
+            enemy = upper;
+        }
+        cout<<(*i).second<<" "<<(*enemy).second<<endl;
     }
     return 0;
 }
