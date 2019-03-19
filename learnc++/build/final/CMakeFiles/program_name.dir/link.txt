@@ -1,1 +1,0 @@
-clang++   -std=c++11 -O0 -g -g   CMakeFiles/program_name.dir/home/w/srcRep/learnc++/src/final/so7.cpp.o  -o program_name 

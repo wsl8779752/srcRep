@@ -1,3 +1,0 @@
-/home/w/srcRep/learnc++/build/chapter8/CMakeFiles/rebuild_cache.dir
-/home/w/srcRep/learnc++/build/chapter8/CMakeFiles/edit_cache.dir
-/home/w/srcRep/learnc++/build/chapter8/CMakeFiles/program_name.dir

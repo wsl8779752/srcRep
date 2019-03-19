@@ -5,3 +5,8 @@ class CType
         int operator++(int){ int ans = k ; k*=k; return ans;  }
         int k;
 }; 
+ostream&  operator<<(ostream &o,CType& n){ 
+    o<<n.k;
+    return o;
+}
+

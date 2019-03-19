@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/w/srcRep/explosion/src/explosionChain.cpp
+explosionChain.hpp
+/home/w/srcRep/explosion/src/explosionChain.hpp
+kdl/chain.hpp
+/home/w/srcRep/explosion/src/kdl/chain.hpp
+iostream
+-
+kdl/frames_io.hpp
+-
+
+/home/w/srcRep/explosion/src/explosionChain.hpp
+kdl/chain.hpp
+-
+
+/home/w/srcRep/explosion/src/main.cpp
+explosionChain.hpp
+/home/w/srcRep/explosion/src/explosionChain.hpp
+iostream
+-
+kdl/chainfksolverpos_recursive.hpp
+-
+kdl/frames_io.hpp
+-
+
