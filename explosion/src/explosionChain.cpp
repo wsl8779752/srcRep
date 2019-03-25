@@ -1,13 +1,13 @@
 #include "explosionChain.hpp" 
 #include "kdl/chain.hpp" 
 #include <iostream>
-#include <kdl/frames_io.hpp>
+#include "kdl/frames_io.hpp"
 namespace KDL{
     Chain* ExpYuede(){
         Chain *expYuede = new Chain;
         //设置关节参数，选项依次为旋转轴，减速比，直线结构的offset，电机惯量，
         //阻尼（滑动摩擦系数），刚度
-        expYuede->addSegment(Segment(Joint(Joint::RotZ,1/-62.111,0,200e-6,1.48e-3,0), 
+        expYuede->addSegment(Segment(Joint(Joint::RotZ,1/-62.111,M_PI/3,200e-6,1.48e-3,0), 
                     Frame::DH(0.0,M_PI_2,0.0,0.0), //a alpha  d theta;
                     //m,cog from origin,惯性张量擦书 
                     RigidBodyInertia(0,Vector::Zero(),RotationalInertia(0,0.35,0,0,0,0)))); 

@@ -1,11 +1,11 @@
 #include "explosionChain.hpp" 
 #include <iostream> 
-#include <chainfksolverpos_recursive.hpp> 
-#include <frames_io.hpp> 
-#include "models.hpp" 
+#include "kdl/chainfksolverpos_recursive.hpp" 
+#include "kdl/frames_io.hpp" 
+#include "kdl/models.hpp" 
 int main(int argc, char *argv[])
 {
-    KDL::Chain *p = KDL::ExpYuede();; 
+    KDL::Chain *p = KDL::ExpYuede(); 
     KDL::Chain chain;
 	chain = KDL::Puma560();
     KDL::ChainFkSolverPos_recursive fksolver(*p)  ;
@@ -16,12 +16,14 @@ int main(int argc, char *argv[])
     for (unsigned int i = 0; i < nj; ++i) { //从外部读入关节量
         std::cin>>myinput.data(i); 
     } 
+    
     fksolver.JntToCart(myinput,pos_goal,nj);
     std::cout<<"pos "<<pos_goal.p[0]<<"\n"<<pos_goal.p[1]<<"\n"<<pos_goal.p[2]<<
         "\n"<<"rotation "<<pos_goal.M<<std::endl;
      
-    fksolverPuma560.JntToCart(myinput,pos_goal,6);
+    fksolverPuma560.JntToCart(myinput,pos_goal,nj);
     std::cout<<"pos "<<pos_goal.p[0]<<"\n"<<pos_goal.p[1]<<"\n"<<pos_goal.p[2]<<
         "\n"<<"rotation "<<pos_goal.M<<std::endl;
     delete p;
+
 }
