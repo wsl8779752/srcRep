@@ -9,6 +9,7 @@ int main(int argc, char *argv[])
     KDL::Chain chain;
 	chain = KDL::Puma560();
     KDL::ChainFkSolverPos_recursive fksolver(*p)  ;
+
     KDL::ChainFkSolverPos_recursive fksolverPuma560(chain)  ;
     KDL::Frame pos_goal;
     unsigned int nj = p->getNrOfJoints(); //获取机器人的关节数目
