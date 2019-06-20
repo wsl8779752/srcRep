@@ -1,0 +1,35 @@
+Given an array of integers, return indices of the two numbers such that they add up to a specific target.
+You may assume that each input would have exactly one solution, and you may not use the same element twice.
+
+Example:
+Given nums = [2, 7, 11, 15], target = 9,
+Because nums[0] + nums[1] = 2 + 7 = 9,
+return [0, 1].
+
+其实一开始拿到这道题目，我脑海中唯一的想法就是使用for 循环进行枚举。这样需要 O(n^2)的时间 。
+一种思路是用hash 表。
+HASH 表的关键问题在于key值，本例中采用每个数组的值作为哈希节点key ，然后
+建立一个哈希表。
+哈希表冲突采用开放定址法解决。
+具体步骤如下：
+先定义一个节点类型，每个节点包含两个数据，一个是数组元素值，另一个是该key的数组索引（index）。然后需
+要定义一个hash map 类型，hasp map 包含两个数据，一个hasn map size，另外一个是 指向 hash表头指
+针的指针。
+
+主函数中，先 creat hashmap ，在creat hash_map 中确定 hashmap size ，并且分配 size 个hash节点空
+间，并将 hashmap 指针的指针指向节点空间的头指针。
+
+计算 rest = 9-a[i] ，key = abs(rest)/（2*数组长度）.
+根据key查找 hash表中是否存在节点，如果存在，查询数组元素值是否与rest相等，是的返回 节点中的value ，否则的话key+1 ，继续查询。
+
+如果碰到空节点（查不到节点），则将数据写入节点。
+
+	hashmap				hashnode pointer arry       Hash_node
+	Size				storge[0]					key1 value1
+	hashnode**storge 	storge[1]					key2 value2	
+						storge[2]					key3 value3	
+						storge[3]
+						..
+						..
+						storge[2*Size-1]
+本人觉得其实这个hashmap 没必要，直接定义hash_node pointer arry 就行了。

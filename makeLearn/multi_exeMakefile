@@ -1,0 +1,24 @@
+foo  = a.o b.o c.o
+obj = $(patsubst %.o,%,$(foo))
+#all: $(foo)
+# end of shangmian 
+all : $(obj)
+.PONY: all
+	cc -o $@ 	
+#%.o:%.c
+	#cc -c $< -o $(patsubst %.o,%,$@)
+#bar := $(foo:%.o=%.c)
+.PONY : clean
+clean :
+	-rm *.o $(obj)
+	@echo "foo:$(foo)" 
+	@echo "bar:$(bar)"
+	@echo "SHELL:$(SHELL)"
+	@echo "MAKEFLAGS:$(MAKEFLAGS)"
+	@echo  "MAKE:$(MAKE)"
+	@echo "cc: $(CC)"
+	@echo "SUFFIXE:$(SUFFIXES)"
+	@echo ".SUFFIXES:$(/.SUFFIXES)"
+print: *.c
+	lpr -p $?
+	touch print

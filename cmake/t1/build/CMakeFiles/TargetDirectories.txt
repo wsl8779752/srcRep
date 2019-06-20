@@ -1,0 +1,3 @@
+/home/k/src/srcRep/cmake/t1/build/CMakeFiles/edit_cache.dir
+/home/k/src/srcRep/cmake/t1/build/CMakeFiles/rebuild_cache.dir
+/home/k/src/srcRep/cmake/t1/build/CMakeFiles/Tutorial.dir

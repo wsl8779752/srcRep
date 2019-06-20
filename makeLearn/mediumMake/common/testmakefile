@@ -1,0 +1,10 @@
+all : common.o
+
+MODULE := $(realpath .)  #返回文件的绝对地址
+#MODULE := $(notdir $(MODULE))  
+
+.PONY : clean
+
+clean : 
+	@echo "cleaning "
+	@echo $(MODULE)

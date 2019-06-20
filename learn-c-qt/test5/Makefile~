@@ -1,0 +1,20 @@
+all: main
+
+main: main.o sub1.o add1.o
+	g++ $^ -o $@
+
+.PHONY: clean
+clean:
+	-rm main *.o
+
+
+sources = main.cpp sub1.cpp add1.cpp
+
+include $(sources:.cpp=.d)
+
+%.d: %.cpp
+	set -e; rm -f $@; \
+	$(CXX) -MM $(CPPFLAGS) $< > $@.$$$$; \
+	sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@; \
+	rm -f $@.$$$$
+

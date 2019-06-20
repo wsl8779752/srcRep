@@ -1,0 +1,8 @@
+objects = a.o b.o
+all:$(objects)
+#.PONY : all
+$(objects):%.o:%.c
+	$(CC) -c $(CFLAGS) $< -o $@
+a:a.o
+	cc  a.o -o a
+	rm a.o

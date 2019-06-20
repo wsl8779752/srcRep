@@ -1,0 +1,197 @@
+# GNU Make 4.1
+# Built for x86_64-pc-linux-gnu
+# Copyright (C) 1988-2014 Free Software Foundation, Inc.
+# License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+# This is free software: you are free to change and redistribute it.
+# There is NO WARRANTY, to the extent permitted by law.
+
+# Make data base, printed on Tue May 28 14:23:21 2019
+
+# Variables
+
+# environment
+DESKTOP_SESSION = ubuntu
+# default
+.SHELLFLAGS := -c
+# environment
+XDG_SESSION_TYPE = x11
+# environment
+UPSTART_INSTANCE = 
+# environment
+XAUTHORITY = /home/k/.Xauthority
+# environment
+GDMSESSION = ubuntu
+# environment
+XMODIFIERS = @im=fcitx
+# environment
+SHELL = /bin/bash
+# environment
+GDM_LANG = en_US
+# environment
+VTE_VERSION = 4205
+# environment
+_ = /usr/bin/make
+# environment
+XDG_CONFIG_DIRS = /etc/xdg/xdg-ubuntu:/usr/share/upstart/xdg:/etc/xdg
+# environment
+IM_CONFIG_PHASE = 1
+# environment
+GNUMAKEFLAGS := 
+# environment
+SESSIONTYPE = gnome-session
+# environment
+MANDATORY_PATH = /usr/share/gconf/ubuntu.mandatory.path
+# environment
+XDG_DATA_DIRS = /usr/share/ubuntu:/usr/share/gnome:/usr/local/share:/usr/share:/var/lib/snapd/desktop
+# environment
+DBUS_SESSION_BUS_ADDRESS = unix:abstract=/tmp/dbus-93Vk2fDEBH
+# environment
+CLUTTER_IM_MODULE = xim
+# environment
+LESSOPEN = | /usr/bin/lesspipe %s
+# environment
+LC_NAME = zh_CN.UTF-8
+# environment
+XDG_SESSION_PATH = /org/freedesktop/DisplayManager/Session0
+# environment
+PATH = /home/k/gcc-arm-none-eabi-5_4-2016q2/bin:/home/k/bin:/home/k/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+# environment
+GPG_AGENT_INFO = /home/k/.gnupg/S.gpg-agent:0:1
+# environment
+UPSTART_JOB = unity-settings-daemon
+# environment
+XDG_RUNTIME_DIR = /run/user/1000
+# environment
+WINDOWID = 14686754
+# environment
+LC_NUMERIC = zh_CN.UTF-8
+# default
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
+# environment
+XDG_GREETER_DATA_DIR = /var/lib/lightdm-data/k
+# environment
+LS_COLORS = no=00;38;5;244:rs=0:di=00;38;5;33:ln=00;38;5;37:mh=00:pi=48;5;230;38;5;136;01:so=48;5;230;38;5;136;01:do=48;5;230;38;5;136;01:bd=48;5;230;38;5;244;01:cd=48;5;230;38;5;244;01:or=48;5;235;38;5;160:su=48;5;160;38;5;230:sg=48;5;136;38;5;230:ca=30;41:tw=48;5;64;38;5;230:ow=48;5;235;38;5;33:st=48;5;33;38;5;230:ex=00;38;5;64:*.tar=00;38;5;61:*.tgz=00;38;5;61:*.arj=00;38;5;61:*.taz=00;38;5;61:*.lzh=00;38;5;61:*.lzma=00;38;5;61:*.tlz=00;38;5;61:*.txz=00;38;5;61:*.zip=00;38;5;61:*.z=00;38;5;61:*.Z=00;38;5;61:*.dz=00;38;5;61:*.gz=00;38;5;61:*.lz=00;38;5;61:*.xz=00;38;5;61:*.bz2=00;38;5;61:*.bz=00;38;5;61:*.tbz=00;38;5;61:*.tbz2=00;38;5;61:*.tz=00;38;5;61:*.deb=00;38;5;61:*.rpm=00;38;5;61:*.jar=00;38;5;61:*.rar=00;38;5;61:*.ace=00;38;5;61:*.zoo=00;38;5;61:*.cpio=00;38;5;61:*.7z=00;38;5;61:*.rz=00;38;5;61:*.apk=00;38;5;61:*.gem=00;38;5;61:*.jpg=00;38;5;136:*.JPG=00;38;5;136:*.jpeg=00;38;5;136:*.gif=00;38;5;136:*.bmp=00;38;5;136:*.pbm=00;38;5;136:*.pgm=00;38;5;136:*.ppm=00;38;5;136:*.tga=00;38;5;136:*.xbm=00;38;5;136:*.xpm=00;38;5;136:*.tif=00;38;5;136:*.tiff=00;38;5;136:*.png=00;38;5;136:*.PNG=00;38;5;136:*.svg=00;38;5;136:*.svgz=00;38;5;136:*.mng=00;38;5;136:*.pcx=00;38;5;136:*.dl=00;38;5;136:*.xcf=00;38;5;136:*.xwd=00;38;5;136:*.yuv=00;38;5;136:*.cgm=00;38;5;136:*.emf=00;38;5;136:*.eps=00;38;5;136:*.CR2=00;38;5;136:*.ico=00;38;5;136:*.tex=00;38;5;245:*.rdf=00;38;5;245:*.owl=00;38;5;245:*.n3=00;38;5;245:*.ttl=00;38;5;245:*.nt=00;38;5;245:*.torrent=00;38;5;245:*.xml=00;38;5;245:*Makefile=00;38;5;245:*Rakefile=00;38;5;245:*Dockerfile=00;38;5;245:*build.xml=00;38;5;245:*rc=00;38;5;245:*1=00;38;5;245:*.nfo=00;38;5;245:*README=00;38;5;245:*README.txt=00;38;5;245:*readme.txt=00;38;5;245:*.md=00;38;5;245:*README.markdown=00;38;5;245:*.ini=00;38;5;245:*.yml=00;38;5;245:*.cfg=00;38;5;245:*.conf=00;38;5;245:*.h=00;38;5;245:*.hpp=00;38;5;245:*.c=00;38;5;245:*.cpp=00;38;5;245:*.cxx=00;38;5;245:*.cc=00;38;5;245:*.objc=00;38;5;245:*.sqlite=00;38;5;245:*.go=00;38;5;245:*.sql=00;38;5;245:*.csv=00;38;5;245:*.log=00;38;5;240:*.bak=00;38;5;240:*.aux=00;38;5;240:*.lof=00;38;5;240:*.lol=00;38;5;240:*.lot=00;38;5;240:*.out=00;38;5;240:*.toc=00;38;5;240:*.bbl=00;38;5;240:*.blg=00;38;5;240:*~=00;38;5;240:*#=00;38;5;240:*.part=00;38;5;240:*.incomplete=00;38;5;240:*.swp=00;38;5;240:*.tmp=00;38;5;240:*.temp=00;38;5;240:*.o=00;38;5;240:*.pyc=00;38;5;240:*.class=00;38;5;240:*.cache=00;38;5;240:*.aac=00;38;5;166:*.au=00;38;5;166:*.flac=00;38;5;166:*.mid=00;38;5;166:*.midi=00;38;5;166:*.mka=00;38;5;166:*.mp3=00;38;5;166:*.mpc=00;38;5;166:*.ogg=00;38;5;166:*.opus=00;38;5;166:*.ra=00;38;5;166:*.wav=00;38;5;166:*.m4a=00;38;5;166:*.axa=00;38;5;166:*.oga=00;38;5;166:*.spx=00;38;5;166:*.xspf=00;38;5;166:*.mov=00;38;5;166:*.MOV=00;38;5;166:*.mpg=00;38;5;166:*.mpeg=00;38;5;166:*.m2v=00;38;5;166:*.mkv=00;38;5;166:*.ogm=00;38;5;166:*.mp4=00;38;5;166:*.m4v=00;38;5;166:*.mp4v=00;38;5;166:*.vob=00;38;5;166:*.qt=00;38;5;166:*.nuv=00;38;5;166:*.wmv=00;38;5;166:*.asf=00;38;5;166:*.rm=00;38;5;166:*.rmvb=00;38;5;166:*.flc=00;38;5;166:*.avi=00;38;5;166:*.fli=00;38;5;166:*.flv=00;38;5;166:*.gl=00;38;5;166:*.m2ts=00;38;5;166:*.divx=00;38;5;166:*.webm=00;38;5;166:*.axv=00;38;5;166:*.anx=00;38;5;166:*.ogv=00;38;5;166:*.ogx=00;38;5;166:
+# environment
+LIBCXX_SITE_CONFIG = /home/wei/Downloads/llvm_clang/llvm/projects/libcxx_111321/test/lit.site.cfg
+# environment
+JOB = gnome-session
+# environment
+XDG_SESSION_DESKTOP = ubuntu
+# environment
+SSH_AUTH_SOCK = /run/user/1000/keyring/ssh
+# environment
+DISPLAY = :0
+# environment
+GTK_IM_MODULE = fcitx
+# environment
+PWD = /home/k/src/srcRep/makeLearn
+# environment
+QT_QPA_PLATFORMTHEME = appmenu-qt5
+# environment
+XDG_SEAT = seat0
+# environment
+GTK_MODULES = gail:atk-bridge:unity-gtk-module
+# environment
+HOME = /home/k
+# environment
+LESSCLOSE = /usr/bin/lesspipe %s %s
+# environment
+LOGNAME = k
+# environment
+QT_LINUX_ACCESSIBILITY_ALWAYS_ON = 1
+# environment
+GNOME_DESKTOP_SESSION_ID = this-is-deprecated
+# environment
+XDG_VTNR = 7
+# environment
+LC_TIME = zh_CN.UTF-8
+# environment
+QT_IM_MODULE = fcitx
+# environment
+SHLVL = 1
+# default
+MAKE_TERMERR := /dev/pts/20
+# environment
+COMPIZ_CONFIG_PROFILE = ubuntu
+# environment
+XDG_SESSION_ID = c2
+# environment
+USER = k
+# environment
+LC_MONETARY = zh_CN.UTF-8
+# environment
+XDG_CURRENT_DESKTOP = Unity
+# environment
+UPSTART_EVENTS = started starting
+# environment
+GNOME_KEYRING_PID = 
+# environment
+LC_TELEPHONE = zh_CN.UTF-8
+# environment
+OLDPWD = /home/k/src/srcRep/makeLearn/simpleMake
+# default
+.VARIABLES := 
+# environment
+LANGUAGE = en_US
+# environment
+XDG_SEAT_PATH = /org/freedesktop/DisplayManager/Seat0
+# environment
+GNOME_KEYRING_CONTROL = 
+# environment
+LC_PAPER = zh_CN.UTF-8
+# environment
+GTK2_MODULES = overlay-scrollbar
+# environment
+QT_ACCESSIBILITY = 1
+# environment
+DEFAULTS_PATH = /usr/share/gconf/ubuntu.default.path
+# environment
+UPSTART_SESSION = unix:abstract=/com/ubuntu/upstart-session/1000/1298
+# environment
+LC_MEASUREMENT = zh_CN.UTF-8
+# environment
+INSTANCE = Unity
+# environment
+QT4_IM_MODULE = fcitx
+# environment
+LC_IDENTIFICATION = zh_CN.UTF-8
+# default
+.RECIPEPREFIX := 
+# environment
+http_proxy = http://localhost:8123
+# environment
+LC_ADDRESS = zh_CN.UTF-8
+# environment
+LANG = en_US.UTF-8
+# environment
+TERM = xterm-256color
+# variable set hash-table stats:
+# Load=78/1024=8%, Rehash=0, Collisions=6/82=7%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+
+# No files, no impossibilities in 0 directories.
+
+# Implicit Rules
+
+# No implicit rules.
+
+# Files
+
+# files hash-table stats:
+# Load=0/1024=0%, Rehash=0, Collisions=0/0=0%
+# VPATH Search Paths
+
+# No 'vpath' search paths.
+
+# No general ('VPATH' variable) search path.
+
+# No strcache buffers
+
+# Finished Make data base on Tue May 28 14:23:21 2019
+
